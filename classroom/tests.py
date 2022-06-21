@@ -2,7 +2,7 @@ from django.test import TestCase
 from .models import SchoolYear,Classroom
 
 # test for the creation of a new school year
-class SchoolYearTest(TestCase):
+class CreateNewSchoolYearTest(TestCase):
     def setUp(self):
         # creating a new school year
         SchoolYear.objects.create(year=2022)
@@ -14,7 +14,7 @@ class SchoolYearTest(TestCase):
         self.assertEqual(school_year.__str__(),'2022')
 
 # test for the creation of new classrooms
-class ClassroomTest(TestCase):
+class CreateNewClassroomTest(TestCase):
     def setUp(self):
         # creating a new school year and 3 new classrooms
         school_year = SchoolYear.objects.create(year=2022)
