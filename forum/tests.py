@@ -5,7 +5,7 @@ from users.models import AnswerNotification
 from .models import Forum,Topic,Question,Answer
 
 # test for the creation of a forum
-class ForumTest(TestCase):
+class CreateNewForumTest(TestCase):
     def setUp(self):
         # creating a new school year and two new classes
         school_year = SchoolYear.objects.create(year=2022)
@@ -23,7 +23,7 @@ class ForumTest(TestCase):
         self.assertEqual(forum2.classroom.title,'Class 2')
 
 # test for the creating of a topic
-class TopicTest(TestCase):
+class CreateNewTopicTest(TestCase):
     def setUp(self):
         # creating a new school year, classroom, forum, and 3 forum topics
         school_year = SchoolYear.objects.create(year=2022)
@@ -50,7 +50,7 @@ class TopicTest(TestCase):
         self.assertEqual(topic3.title,'Topic 3')
 
 # testing for the creation of several questions by a user
-class UserQuestionTest(TestCase):
+class CreateNewUserQuestionTest(TestCase):
     def setUp(self):
         # creating a new user, school year, classroom, forum, topic, 3 new questions
         user = User.objects.create_user(username='NewUser',email='newuser@gmail.com',password='newest_user!',first_name='Snerd',last_name='Snerdyson')
@@ -81,7 +81,7 @@ class UserQuestionTest(TestCase):
         self.assertEqual(f'{question3.title} - {question2.author.first_name} {question3.author.last_name}','Question 3 - Snerd Snerdyson')
 
 # testing the creation of new answers
-class AnswerTest(TestCase):
+class CreateNewAnswerTest(TestCase):
     def setUp(self):
         # creating three new users, a new school year, a new classroom, a new forum, 3 questions, and six new answers
         # 2 answers per newly created question. 2 answers per newly created user
@@ -154,7 +154,7 @@ class AnswerTest(TestCase):
         self.assertEqual(answer6.question,question3)
 
 # test for the creation of answer notifications when a user's question is answered
-class AnswerNotificationTest(TestCase):
+class CreateNewAnswerNotificationTest(TestCase):
     def setUp(self):
         # creating three new users, a new school year, a new classroom, a new forum, 2 questions, and two new answers
         # 1 answers per newly created question
