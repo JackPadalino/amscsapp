@@ -12,7 +12,7 @@ class ForumTest(TestCase):
         Classroom.objects.create(title='Class 1',school_year=school_year,join_code='abc123')
         Classroom.objects.create(title='Class 2',school_year=school_year,join_code='abc123')
     
-    def test_forums(self):
+    def test(self):
         # fetching the newly created classes and their related forums
         classroom1 = Classroom.objects.get(title='Class 1')
         classroom2 = Classroom.objects.get(title='Class 2')
@@ -33,7 +33,7 @@ class TopicTest(TestCase):
         Topic.objects.create(title='Topic 2',forum=forum)
         Topic.objects.create(title='Topic 3',forum=forum)
     
-    def test_topics(self):
+    def test(self):
         # fetching the 3 new topics, the newly created classroom, and the forum related to the classroom
         topic1 = Topic.objects.get(title='Topic 1')
         topic2 = Topic.objects.get(title='Topic 2')
@@ -62,7 +62,7 @@ class UserQuestionTest(TestCase):
         Question.objects.create(author=user,forum=forum,topic=topic,title='Question 2',content='This is my second question!',project_link='',image='pic.jpeg',video='')
         Question.objects.create(author=user,forum=forum,topic=topic,title='Question 3',content='This is my third question!',project_link='',image='pic.jpeg',video='')
     
-    def test_questions(self):
+    def test(self):
         # fetching the newly created user and the 3 new questions
         user = User.objects.get(username='NewUser')
         question1 = Question.objects.get(title='Question 1')
@@ -102,7 +102,7 @@ class AnswerTest(TestCase):
         Answer.objects.create(author=user1,forum=forum,question=question3,content='Here is my answer!',project_link='',image='pic.jpeg',video='',solution=False)
         Answer.objects.create(author=user2,forum=forum,question=question3,content='Here is my answer!',project_link='',image='pic.jpeg',video='',solution=False)
     
-    def test_answers(self):
+    def test(self):
         # fetching the newly creatd user objects, the new classroom, the forum, the 3 questions, and the 6 new answers
         user1 = User.objects.get(username='NewUser1')
         user2 = User.objects.get(username='NewUser2')
@@ -169,7 +169,7 @@ class AnswerNotificationTest(TestCase):
         Answer.objects.create(author=user2,forum=forum,question=question1,content='Here is my answer!',project_link='',image='pic.jpeg',video='',solution=False)
         Answer.objects.create(author=user2,forum=forum,question=question2,content='Here is my answer!',project_link='',image='pic.jpeg',video='',solution=False)
     
-    def test_forums(self):
+    def test(self):
         # fetching the newly created user 1, their questions, and the answer notifications created when
         # their questions were answerered by user 2
         user1 = User.objects.get(username='NewUser1')

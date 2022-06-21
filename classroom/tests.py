@@ -7,7 +7,7 @@ class SchoolYearTest(TestCase):
         # creating a new school year
         SchoolYear.objects.create(year=2022)
     
-    def test_school_year(self):
+    def test(self):
         # fetching the newly created school year
         school_year = SchoolYear.objects.get(year=2022)
         # testing the title of the newly created school year
@@ -22,7 +22,7 @@ class ClassroomTest(TestCase):
         Classroom.objects.create(title='Class 2',school_year=school_year,join_code='abc123')
         Classroom.objects.create(title='Class 3',school_year=school_year,join_code='abc123')
         
-    def test_classrooms(self):
+    def test(self):
         # fetching the newly created classrooms and school year
         classroom1 = Classroom.objects.get(title='Class 1')
         classroom2 = Classroom.objects.get(title='Class 2')
