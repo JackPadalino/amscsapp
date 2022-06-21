@@ -3,8 +3,8 @@ from .models import SchoolYear,Classroom
 
 # test for the creation of a new school year
 class SchoolYearTest(TestCase):
-    # creating a new school year
     def setUp(self):
+        # creating a new school year
         SchoolYear.objects.create(year=2022)
     
     def test_school_year(self):
@@ -15,8 +15,8 @@ class SchoolYearTest(TestCase):
 
 # test for the creation of new classrooms
 class ClassroomTest(TestCase):
-    # creating a new school year and 3 new classrooms
     def setUp(self):
+        # creating a new school year and 3 new classrooms
         school_year = SchoolYear.objects.create(year=2022)
         Classroom.objects.create(title='Class 1',school_year=school_year,join_code='abc123')
         Classroom.objects.create(title='Class 2',school_year=school_year,join_code='abc123')

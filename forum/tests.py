@@ -5,8 +5,8 @@ from .models import Forum,Topic,Question,Answer
 
 # Test for the creation of a forum
 class ForumTest(TestCase):
-    # Creating a new school year and two new classes
     def setUp(self):
+        # creating a new school year and two new classes
         school_year = SchoolYear.objects.create(year=2022)
         Classroom.objects.create(title='Class 1',school_year=school_year,join_code='abc123')
         Classroom.objects.create(title='Class 2',school_year=school_year,join_code='abc123')
@@ -23,8 +23,8 @@ class ForumTest(TestCase):
 
 # Test for the creating of a topic
 class TopicTest(TestCase):
-    # creating a new school year, classroom, forum, and 3 forum topics
     def setUp(self):
+        # creating a new school year, classroom, forum, and 3 forum topics
         school_year = SchoolYear.objects.create(year=2022)
         classroom = Classroom.objects.create(title='Class 1',school_year=school_year,join_code='abc123')
         forum = Forum.objects.get(classroom=classroom)
@@ -50,8 +50,8 @@ class TopicTest(TestCase):
 
 # Testing for the creation of several questions by a user
 class UserQuestionTest(TestCase):
-    # Creating a new user, school year, classroom, forum, topic, 3 new questions
     def setUp(self):
+        # Creating a new user, school year, classroom, forum, topic, 3 new questions
         user = User.objects.create_user(username='NewUser',email='newuser@gmail.com',password='newest_user!',first_name='Snerd',last_name='Snerdyson')
         school_year = SchoolYear.objects.create(year=2022)
         classroom = Classroom.objects.create(title='Class 1',school_year=school_year,join_code='abc123')
@@ -81,9 +81,9 @@ class UserQuestionTest(TestCase):
 
 # testing the creation of new answers
 class AnswerTest(TestCase):
-    # creating three new users, a new school year, a new classroom, a new forum, 3 questions, and six new answers
-    # 2 answers per newly created question. 2 answers per newly created user
     def setUp(self):
+        # creating three new users, a new school year, a new classroom, a new forum, 3 questions, and six new answers
+        # 2 answers per newly created question. 2 answers per newly created user
         user1 = User.objects.create_user(username='NewUser1',email='newuser@gmail.com',password='newest_user!',first_name='Snerd',last_name='Snerdyson')
         user2 = User.objects.create_user(username='NewUser2',email='newuser@gmail.com',password='newest_user!',first_name='Snerd',last_name='Snerdyson')
         user3 = User.objects.create_user(username='NewUser3',email='newuser@gmail.com',password='newest_user!',first_name='Snerd',last_name='Snerdyson')
