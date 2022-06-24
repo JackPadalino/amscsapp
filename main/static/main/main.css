@@ -1,0 +1,20 @@
+/*~~~~~CSS for all pages~~~~~*/
+body{
+    background-color:#fafafa;
+}
+
+.navbar{
+    background-color: rgb(53, 112, 168);
+    padding-left:10px;
+    padding-right:10px;
+    margin-bottom:20px;
+}
+
+.page-content{
+    margin-left:20px;
+    margin-right:20px;
+}
+
+.page-title{
+    text-align:center;
+}
