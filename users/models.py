@@ -31,7 +31,7 @@ class Project(models.Model):
     title = models.CharField(max_length=50,default='My project')
     blurb = models.CharField(max_length=100,default='Check out my project!')
     description = models.TextField(default="I haven't written my project description yet, but trust me it will be awesome!")
-    video = models.CharField(max_length=1000,blank=True)
+    #video = models.CharField(max_length=1000,blank=True)
     #image = models.ImageField(default=None,blank=True)
 
     def get_absolute_url(self):
@@ -47,16 +47,14 @@ class ProjectPhoto(models.Model):
     def __str__(self):
         return f'{self.project}'
 
-'''
 class ProjectVideo(models.Model):
     project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='project_videos')
     video = models.CharField(max_length=1000,blank=True,default=None)
 
     def __str__(self):
         return f'{self.project}'
-'''
 
-class Comment(models.Model):
+class ProjectComment(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE,related_name='comments')
     project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='comments')
     content = models.TextField()
@@ -67,8 +65,8 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.author} commented on {self.project.user.first_name} {self.project.user.last_name}'s project"
 
-class CommentNotification(models.Model):
-    comment = models.OneToOneField(Comment,on_delete=models.CASCADE)
+class ProjectCommentNotification(models.Model):
+    comment = models.OneToOneField(ProjectComment,on_delete=models.CASCADE)
     notified_user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='comment_notifications')
 
     #def get_absolute_url(self):

@@ -14,7 +14,7 @@ class CreateNewSchoolYearTest(TestCase):
         self.assertEqual(school_year.__str__(),'2022')
 
 # test for the creation of new classrooms
-class CreateNewClassroomTest(TestCase):
+class CreateNewgClassroomTest(TestCase):
     def setUp(self):
         # creating a new school year and 3 new classrooms
         school_year = SchoolYear.objects.create(year=2022)

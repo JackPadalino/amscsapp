@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import Comment,CommentNotification,AnswerNotification
+from .models import ProjectComment,ProjectCommentNotification,AnswerNotification
 from users.models import Profile
 from forum.models import Answer
 
@@ -14,10 +14,10 @@ def create_profile(sender,instance,created,**kwargs):
 def save_profile(sender,instance,**kwargs):
     instance.profile.save()
 
-@receiver(post_save,sender=Comment)
+@receiver(post_save,sender=ProjectComment)
 def create_comment_notification(sender,instance,created,**kwargs):
     if created:
-        CommentNotification.objects.create(comment=instance,notified_user=instance.project.user)
+        ProjectCommentNotification.objects.create(comment=instance,notified_user=instance.project.user)
 
 
 @receiver(post_save,sender=Answer)
