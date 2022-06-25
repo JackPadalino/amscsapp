@@ -5,7 +5,8 @@ from django.urls import reverse
 
 # school year model
 class SchoolYear(models.Model):
-    year = models.IntegerField(default=1900)
+    #year = models.IntegerField(default=1900)
+    year = models.CharField(max_length=10,default='1900-1901')
 
     def get_absolute_url(self):
         return reverse('school_year-details',kwargs={'pk':self.category.pk})
