@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class='page-title'>
+    <h1>Classes {{ school_year }}</h1>
+</div>
+<div class="classes-div">
+    {% for class in classes %}
+        <h1>{{ class.title }}</h1>
+    {% endfor %}    
+</div>
+{% endblock content %}
