@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from classroom.models import SchoolYear,Classroom
 
 # Create your views here.
@@ -11,7 +11,7 @@ def home(request):
     }
     return render(request,'main/home.html',context)
 
-class ClassesView(ListView):
+class ClassesListView(ListView):
     template_name = 'main/classes.html'
     context_object_name = 'classes'
 
@@ -25,6 +25,11 @@ class ClassesView(ListView):
     # variable 'school_year', and then passing that variable into the template to be used
     # as the page's title
     def get_context_data(self, **kwargs):
-        school_year = super().get_context_data(**kwargs)
-        school_year['school_year'] = self.kwargs['year']
-        return school_year
+        context = super().get_context_data(**kwargs)
+        context['school_year'] = self.kwargs['year']
+        return context
+
+class ClassDetailView(DetailView):
+    template_name = 'classroom/classroom.html'
+    model = Classroom
+    context_object_name = 'classroom'
