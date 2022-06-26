@@ -1,10 +1,13 @@
 /*~~~~~CSS for all pages~~~~~*/
 body{
-    background-color:#fafafa;
+    /*background-color:#fafafa;*/
+    background-color:#FAF9F6;
 }
 
 .navbar{
-    background-color: rgb(53, 112, 168);
+    /*background-color: rgb(53, 112, 168);*/
+    background-color:white;
+    border-bottom: 1px solid lightgrey;
     padding-left:10px;
     padding-right:10px;
     margin-bottom:20px;
