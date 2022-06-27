@@ -8,8 +8,8 @@ class SchoolYear(models.Model):
     #year = models.IntegerField(default=1900)
     year = models.CharField(max_length=10,default='1900-1901')
 
-    def get_absolute_url(self):
-        return reverse('school_year-details',kwargs={'pk':self.category.pk})
+    #def get_absolute_url(self):
+    #    return reverse('school_year-details',kwargs={'pk':self.category.pk})
 
     def __str__(self):
         return f'{self.year}'
@@ -20,8 +20,8 @@ class Classroom(models.Model):
     school_year = models.ForeignKey(SchoolYear,on_delete=models.CASCADE,related_name='classrooms')
     join_code = models.CharField(max_length=10,default='abc123')
     
-    def get_absolute_url(self):
-        return reverse('classroom-details',kwargs={'pk':self.category.pk})
+    #def get_absolute_url(self):
+    #    return reverse('classroom-details',kwargs={'pk':self.category.pk})
 
     def __str__(self):
         return f'{self.title} - {self.school_year}'

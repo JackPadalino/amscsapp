@@ -8,8 +8,8 @@ from classroom.models import Classroom
 class Forum(models.Model):
     classroom = models.OneToOneField(Classroom,on_delete=models.CASCADE)
 
-    def get_absolute_url(self):
-        return reverse('forum-details',kwargs={'pk':self.category.pk})
+    #def get_absolute_url(self):
+    #    return reverse('forum-details',kwargs={'pk':self.category.pk})
 
     def __str__(self):
         return f'{self.classroom}'
