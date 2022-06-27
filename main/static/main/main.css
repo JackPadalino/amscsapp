@@ -21,3 +21,31 @@ body{
 .page-title{
     text-align:center;
 }
+
+/*~~~~~CSS for register,login, and profile forms~~~~~*/
+.register-login-profile-form{
+    width:500px;
+  }
+  
+  .log-reg-container1>{
+    display:flex;
+    flex-direction:column;
+    column-gap:10px;
+    justify-content:center;
+  }
+  
+  .alert{
+    text-align:center;
+    width:600px;
+  }
+  
+  .log-reg-container2{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  
+  .log-reg-container3{
+    display:flex;
+    justify-content:center;
+  }
