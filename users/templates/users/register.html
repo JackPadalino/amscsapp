@@ -1,9 +1,9 @@
 {% extends 'main/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class='log-reg-container1'>
+<div class='login-register-container1'>
     {% if messages %}
-        <div class='log-reg-container2'>
+        <div class='login-register-container2'>
             {% for message in messages %}
             <div class='alert alert-{{ message.tags }}'>
                 {{ message }}
@@ -11,9 +11,9 @@
             {% endfor %}
         </div>
     {% endif %}
-    <div class='log-reg-container3'>
-        <div class="card project-card" style="width: 600px;">
-            <div class="card-body project-card-body">
+    <div class='login-register-container3'>
+        <div class="card login-register-card">
+            <div class="card-body login-register-card-body">
                 <form method='POST'>
                     <fieldset class='form-group'>
                         <legend class='border-bottom mb-4'>Join Today</legend>
