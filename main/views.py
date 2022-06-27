@@ -28,8 +28,3 @@ class ClassesListView(ListView):
         context = super().get_context_data(**kwargs)
         context['school_year'] = self.kwargs['year']
         return context
-
-class ClassDetailView(DetailView):
-    template_name = 'classroom/classroom.html'
-    model = Classroom
-    context_object_name = 'classroom'
