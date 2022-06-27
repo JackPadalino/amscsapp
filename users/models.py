@@ -20,8 +20,8 @@ class Profile(models.Model):
     stars = models.IntegerField(default=0)
     image = models.ImageField(blank=True,default=None)
 
-    def get_absolute_url(self):
-        return reverse('profile-details',kwargs={'pk':self.category.pk})
+    #def get_absolute_url(self):
+    #    return reverse('profile-details',kwargs={'pk':self.category.pk})
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'

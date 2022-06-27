@@ -19,8 +19,8 @@ class Topic(models.Model):
     title = models.CharField(max_length=100,default=None)
     forum = models.ForeignKey(Forum,on_delete=models.CASCADE,related_name='topics')
 
-    def get_absolute_url(self):
-        return reverse('topic-details',kwargs={'pk':self.category.pk})
+    #def get_absolute_url(self):
+    #    return reverse('topic-details',kwargs={'pk':self.category.pk})
 
     def __str__(self):
         return f'{self.title}'
