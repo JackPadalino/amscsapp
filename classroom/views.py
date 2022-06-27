@@ -6,6 +6,6 @@ from .models import Classroom
 
 # Create your views here.
 class ClassDetailView(DetailView):
-    template_name = 'classroom/classroom.html'
+    template_name = 'classroom/classroom-main.html'
     model = Classroom
     context_object_name = 'classroom'
