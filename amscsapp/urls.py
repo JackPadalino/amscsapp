@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('',include('main.urls')),
+    path('',include('classroom.urls')),
     #path('users/',include('users.urls')),
     #path('users/login/',auth_views.LoginView.as_view(template_name='users/login.html'),name='users-login'),
     #path('users/logout/',auth_views.LogoutView.as_view(template_name='users/logout.html'),name='users-logout'),
