@@ -1,0 +1,38 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div class='alert alert-{{ message.tags }} alert-messages'>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+<div class="card project-card" style="width: 600px;">
+    <div class="card-body project-card-body">
+        <form method='POST'>
+            <fieldset class='form-group'>
+                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                <h4>{{ user.username }}</h4>
+                <p>Grade {{ user.profile.grade }} | {{ user.profile.stars }} stars</p>
+                <br>
+                <fieldset class='form-group'>
+                    <legend class='border-bottom mb-4'>My Classes</legend>
+                    {% for class in  classes %}
+                        <p>{{ class.title }}</p>
+                    {% endfor %}
+                    <br>
+                </fieldset>
+                <legend class='border-bottom mb-4'>Personal information</legend>
+                {% csrf_token %}
+                {{ u_form|crispy }}
+                {{ p_form|crispy }}
+            </fieldset>
+            <br>
+            <div class='form-group'>
+                <button class='btn btn-outline-success' type='submit'>Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
