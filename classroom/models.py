@@ -18,6 +18,7 @@ class SchoolYear(models.Model):
 class Classroom(models.Model):
     title = models.CharField(max_length=50,default='My Classroom')
     school_year = models.ForeignKey(SchoolYear,on_delete=models.CASCADE,related_name='classrooms')
+    image = models.ImageField(blank=True,default=None,null=True)
     join_code = models.CharField(max_length=10,default='abc123')
     
     #def get_absolute_url(self):
