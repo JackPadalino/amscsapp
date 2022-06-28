@@ -17,7 +17,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     classes = models.ManyToManyField(Classroom,blank=True,default=None,related_name='profiles')
     grade = models.IntegerField(choices=grades,default=0)
-    stars = models.IntegerField(default=0)
+    solutions = models.IntegerField(default=0)
     image = models.ImageField(blank=True,default=None)
 
     #def get_absolute_url(self):
