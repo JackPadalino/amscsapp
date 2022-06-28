@@ -63,10 +63,14 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
     classes = request.user.profile.classes.all()
+    num_user_questions = len(request.user.questions.all())
+    num_user_solutions = len(request.user.answers.filter(solution=True))
     context = {
         'title':'My Profile',
         'u_form':u_form,
         'p_form':p_form,
-        'classes':classes
+        'classes':classes,
+        'num_user_questions':num_user_questions,
+        'num_user_solutions':num_user_solutions
     }
     return render(request,'users/profile.html',context)
