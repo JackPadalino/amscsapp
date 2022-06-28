@@ -1,8 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView,DetailView
 from classroom.models import SchoolYear,Classroom
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+
 
 def home(request):
     context = {
@@ -10,12 +13,12 @@ def home(request):
     }
     return render(request,'main/home.html',context)
 
-class SchoolYearListView(ListView):
+class SchoolYearListView(LoginRequiredMixin,ListView):
     model = SchoolYear
     template_name = 'main/schoolyears.html'
     context_object_name = 'schoolyears'
 
-class ClassesListView(ListView):
+class ClassesListView(LoginRequiredMixin,ListView):
     template_name = 'main/classes.html'
     context_object_name = 'classes'
 
