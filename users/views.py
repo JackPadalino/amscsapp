@@ -74,3 +74,11 @@ def profile(request):
         'user_solutions':user_solutions
     }
     return render(request,'users/myprofile.html',context)
+
+class MyClassesListView(LoginRequiredMixin,ListView):
+    template_name = 'users/myclasses.html'
+    context_object_name = 'classes'
+
+    def get_queryset(self):
+        profile = Profile.objects.get(user=self.request.user)
+        return profile.classes.all()
