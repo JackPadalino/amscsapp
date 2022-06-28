@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView,DetailView
 from classroom.models import SchoolYear,Classroom
 
-# Create your views here.
 def home(request):
     context = {
         'title':'Home',
@@ -16,24 +15,7 @@ class SchoolYearListView(ListView):
     template_name = 'main/schoolyears.html'
     context_object_name = 'schoolyears'
 
-'''
-    # this function filters Classroom objects by the 'year' argument passed in from the URL
-    # and then returns an 'object_list' that has been renamed to 'classes' to the template
-    def get_queryset(self):
-        self.year = get_object_or_404(SchoolYear, year=self.kwargs['year'])
-        return School.objects.filter(school_year=self.year)
-    
-    # this function is using the string passed in from the URL, turning it into a context
-    # variable 'school_year', and then passing that variable into the template to be used
-    # as the page's title
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['school_year'] = self.kwargs['year']
-        return context
-'''
-
 class ClassesListView(ListView):
-    #model = Classroom
     template_name = 'main/classes.html'
     context_object_name = 'classes'
 
@@ -43,10 +25,8 @@ class ClassesListView(ListView):
         self.school_year = get_object_or_404(SchoolYear, pk=self.kwargs['pk'])
         return Classroom.objects.filter(school_year=self.school_year)
 
-    
-    # this function is using the string passed in from the URL, turning it into a context
-    # variable 'school_year', and then passing that variable into the template to be used
-    # as the page's title
+    # this function is using the pk passed in from the URL to create a variable 'school_year'
+    # that will be passed into the template
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['school_year'] = SchoolYear.objects.get(id=self.kwargs['pk'])
