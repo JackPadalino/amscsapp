@@ -10,18 +10,28 @@
 {% endif %}
 <div class="card profile-card">
     <div class="card-body profile-card-body">
+        <fieldset class='form-group'>
+            <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+            <h3>{{ user.username }}</h3>
+            <h5>{{ user.profile.grade }}th grade</h5>
+            <br>
+            <legend class='border-bottom mb-4'>My Classes</legend>
+            {% for class in classes %}
+                <p><a href="{% url 'classroom-classroom-main' class.title class.pk %}">{{ class.title}}</a></p>
+            {% endfor %} 
+            <br>
+            <legend class='border-bottom mb-4'>My Forum Activity</legend>
+            <h5> {{ user_questions }} questions | {{ user_answers }} answers | {{ user_solutions }} solutions</h5>
+            <br>
+        </fieldset>
+    </div>
+</div>
+<br>
+<div class="card profile-card">
+    <div class="card-body profile-card-body">
         <form method='POST'>
             <fieldset class='form-group'>
-                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-                <h3>{{ user.username }}</h3>
-                <h5>{{ user.profile.grade }}th grade | {{ num_user_questions }} questions | {{ num_user_solutions }} solutions</h5>
-                <br>
-                <legend class='border-bottom mb-4'>My Classes</legend>
-                {% for class in classes %}
-                    <p><a href="{% url 'classroom-classroom-main' class.title class.pk %}">{{ class.title}}</a></p>
-                {% endfor %} 
-                <br>
-                <legend class='border-bottom mb-4'>Personal information</legend>
+                <legend class='border-bottom mb-4'>My Personal information</legend>
                 {% csrf_token %}
                 {{ u_form|crispy }}
                 {{ p_form|crispy }}
