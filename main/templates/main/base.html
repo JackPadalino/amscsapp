@@ -25,33 +25,33 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if user.is_authenticated %}
-                    <!--<li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>-->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">School Year</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'classroom-classes' '2021-2022' %}">2021-2022</a></li>
-                            <li><a class="dropdown-item" href="{% url 'classroom-classes' '2022-2023' %}">2022-2023</a></li>
-                            <li><a class="dropdown-item" href="{% url 'classroom-classes' '2023-2024' %}">2023-2024</a></li>
-                            <!--<li>
-                                <hr class="dropdown-divider">
-                            </li>-->
-                        </ul>
-                    </li>
+                        <!--<li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">School Year</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'classroom-classes' '2021-2022' %}">2021-2022</a></li>
+                                <li><a class="dropdown-item" href="{% url 'classroom-classes' '2022-2023' %}">2022-2023</a></li>
+                                <li><a class="dropdown-item" href="{% url 'classroom-classes' '2023-2024' %}">2023-2024</a></li>
+                                <!--<li>
+                                    <hr class="dropdown-divider">
+                                </li>-->
+                            </ul>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
             <div class='navbar-nav'>
                 {% if user.is_authenticated %}
-                <a class="nav-link active" aria-current="page" href="{% url 'users-profile' %}">{{ user.username }}</a>
-                <a class="nav-link active" aria-current="page" href="{% url 'users-logout' %}">Logout</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'users-profile' %}">{{ user.username }}</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'users-logout' %}">Logout</a>
                 {% else %}
-                <a class="nav-link active" aria-current="page" href="{% url 'users-login' %}">Login</a>
-                <a class="nav-link active" aria-current="page" href="{% url 'users-register' %}">Register</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'users-login' %}">Login</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'users-register' %}">Register</a>
                 {% endif %}
             </div>
         </div>
