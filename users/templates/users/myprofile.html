@@ -14,14 +14,9 @@
         <h3>{{ user.username }}</h3>
         <h5>{{ user.profile.grade }}th grade</h5>
         <br>
-        <legend class='border-bottom mb-4'>My Classes</legend>
-        {% for class in classes %}
-            <p><a href="{% url 'classroom-classroom-main' class.title class.pk %}">{{ class.title}}</a></p>
-        {% endfor %} 
-        <br>
         <form method='POST'>
             <fieldset class='form-group'>
-                <legend class='border-bottom mb-4'>My Personal information</legend>
+                <legend class='border-bottom mb-4'>Personal information</legend>
                 {% csrf_token %}
                 {{ u_form|crispy }}
                 {{ p_form|crispy }}

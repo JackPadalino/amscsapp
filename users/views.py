@@ -73,4 +73,4 @@ def profile(request):
         'user_answers':user_answers,
         'user_solutions':user_solutions
     }
-    return render(request,'users/profile.html',context)
+    return render(request,'users/myprofile.html',context)
