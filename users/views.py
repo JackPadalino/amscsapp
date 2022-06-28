@@ -1,6 +1,4 @@
-from cProfile import Profile
 from django.urls.base import reverse_lazy
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
