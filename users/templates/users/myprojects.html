@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class='page-title'>
+    <h1>My projects</h1>
+</div>
+<div class="classes-div">
+    {% for project in projects %}
+        <h1>{{ project.title}}</h1>
+    {% endfor %}    
+</div>
+{% endblock content %}

@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView, CreateView,UpdateView,Del
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from .models import Profile,Project
 import re
 import os
 
@@ -56,7 +56,7 @@ def profile(request):
             u_form.save()
             p_form.save()
             messages.success(request,f'Your account information has been updated.')
-            return redirect('users-profile')
+            return redirect('users-myprofile')
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
@@ -82,3 +82,42 @@ class MyClassesListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         profile = Profile.objects.get(user=self.request.user)
         return profile.classes.all()
+
+class MyProjectsListView(LoginRequiredMixin,ListView):
+    template_name = 'users/myprojects.html'
+    context_object_name = 'projects'
+
+    def get_queryset(self):
+        return Project.objects.filter(user=self.request.user)
+
+class ProjectCreateView(LoginRequiredMixin,CreateView):
+    model = Project
+    fields = ['title','blurb','description']
+    
+    def form_valid(self,form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model = Project
+    fields = ['title','blurb','description']
+
+    def form_valid(self,form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        project = self.get_object()
+        if self.request.user == project.student:
+            return True
+        return False
+
+class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model = Project
+    success_url = reverse_lazy('users-myprojects')
+
+    def test_func(self):
+        project = self.get_object()
+        if self.request.user == project.user:
+            return True
+        return False
