@@ -98,6 +98,10 @@ class ProjectCreateView(LoginRequiredMixin,CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+class ProjectDetailView(LoginRequiredMixin,DetailView):
+    model = Project
+    template_name = 'users/projectdetails.html'
+
 class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
     fields = ['title','blurb','description']

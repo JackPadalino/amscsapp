@@ -1,0 +1,16 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card project-card">
+    <div class="card-body project-card-body">
+        <h1>{{ project.title }}</h1>
+        <h3>{{ project.blurb }}</h3>
+        <br>
+        <fieldset class='form-group'>
+            <legend class='border-bottom mb-4'>Project information</legend>
+            <p>{{ project.description }}</p>
+        </fieldset>
+        <br>
+    </div>
+</div>
+{% endblock content %}
