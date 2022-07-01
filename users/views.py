@@ -110,14 +110,15 @@ class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    def test_func(self):
-        project = self.get_object()
-        if self.request.user == project.student:
-            return True
-        return False
+    #def test_func(self):
+    #    project = self.get_object()
+    #    if self.request.user == project.student:
+    #        return True
+    #    return False
 
 class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Project
+    template_name = 'users/project_confirm_delete.html'
     success_url = reverse_lazy('users-myprojects')
 
     def test_func(self):
