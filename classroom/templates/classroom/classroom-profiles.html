@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class='page-title'>
+    <h1>Meet the tean</h1>
+</div>
+<div class="student-profiles-div">
+    {% for profile in profiles %}
+        <!--<h1><a href= url 'classroom-classroom-main' class.title class.pk %}">{{ class.title}}</a></h1>-->
+        <h1>{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+        <p>{{ profile.grade }}th grade</p>
+    {% endfor %}    
+</div>
+{% endblock content %}

@@ -4,4 +4,5 @@
     <h1>{{ classroom.school_year }} {{ classroom.title }}</h1>
     <p>join code: {{ classroom.join_code }}</p>
 </div>
+<h1><a href="{% url 'classroom-classroom-profiles' classroom.title classroom.pk %}">Meet the team</a></h1>
 {% endblock content %}
