@@ -11,7 +11,7 @@
     {% endfor %}
     <h1>My projects</h1>
     {% for project in projects %}
-        <h3><a href="{% url 'classroom-projectdetails' project.pk %}">{{ project.title }}</a></h3>
+        <h3><a href="{% url 'classroom-projectdetails' profile.pk project.pk %}">{{ project.title }}</a></h3>
         <p>{{ project.blurb }}</p>
     {% endfor %}
 </div>

@@ -37,6 +37,16 @@ def StudentDetailsView(request,pk):
     }
     return render(request,'classroom/classroom-studentdetails.html',context)
 
-class ProjectDetailView(LoginRequiredMixin,DetailView):
-    model = Project
-    template_name = 'classroom/classroom-projectdetails.html'
+#class ProjectDetailView(LoginRequiredMixin,DetailView):
+#    model = Project
+#    template_name = 'classroom/classroom-projectdetails.html'
+
+@login_required
+def ProjectDetailView(request,profile_pk,project_pk):
+    profile = Profile.objects.get(pk=profile_pk)
+    project = Project.objects.get(pk=project_pk)
+    context = {
+        'profile':profile,
+        'project':project
+    }
+    return render(request,'classroom/classroom-projectdetails.html',context)

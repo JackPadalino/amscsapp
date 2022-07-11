@@ -5,7 +5,9 @@
     <div class="card-body project-card-body">
         <h1>{{ project.title }}</h1>
         <h3>{{ project.blurb }}</h3>
-        <br>
+        {% if project.project_link %}
+            <p><a href="{{ project.project_link }}">Link to my project</a></p>
+        {% endif %}
         <fieldset class='form-group'>
             <legend class='border-bottom mb-4'>Project information</legend>
             <p>{{ project.description }}</p>
@@ -19,5 +21,5 @@
     <a href="{% url 'users-deleteproject' project.pk %}">Delete project</a>
 {% endif %}
 <br>
-<a href="#">Back to student profile</a>
+<a href="{% url 'classroom-studentdetails' profile.pk %}">Back to student profile</a>
 {% endblock content %}
