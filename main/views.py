@@ -11,15 +11,15 @@ def home(request):
     context = {
         'title':'Home',
     }
-    return render(request,'main/home.html',context)
+    return render(request,'main/main-home.html',context)
 
 class SchoolYearListView(LoginRequiredMixin,ListView):
     model = SchoolYear
-    template_name = 'main/classbyschoolyear.html'
+    template_name = 'main/main-classbyschoolyear.html'
     context_object_name = 'schoolyears'
 
 class ClassesListView(LoginRequiredMixin,ListView):
-    template_name = 'main/classes.html'
+    template_name = 'main/main-classes.html'
     context_object_name = 'classes'
 
     # this function filters Classroom objects by the 'year' argument passed in from the URL

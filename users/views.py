@@ -36,14 +36,14 @@ def register(request):
         'title':'Register',
         'form':form
     }
-    return render(request,'users/register.html',context)
+    return render(request,'users/users-register.html',context)
 
 # login view
 def login(request):
     context = {
         'title':'Login',
     }
-    return render(request,'users/login.html',context)
+    return render(request,'users/users-login.html',context)
 
 # profile details/update view
 @login_required
@@ -73,10 +73,10 @@ def profile(request):
         'user_answers':user_answers,
         'user_solutions':user_solutions
     }
-    return render(request,'users/myprofile.html',context)
+    return render(request,'users/users-myprofile.html',context)
 
 class MyClassesListView(LoginRequiredMixin,ListView):
-    template_name = 'users/myclasses.html'
+    template_name = 'users/users-myclasses.html'
     context_object_name = 'classes'
 
     def get_queryset(self):
@@ -84,7 +84,7 @@ class MyClassesListView(LoginRequiredMixin,ListView):
         return profile.classes.all()
 
 class MyProjectsListView(LoginRequiredMixin,ListView):
-    template_name = 'users/myprojects.html'
+    template_name = 'users/users-myprojects.html'
     context_object_name = 'projects'
 
     def get_queryset(self):
@@ -92,6 +92,7 @@ class MyProjectsListView(LoginRequiredMixin,ListView):
 
 class ProjectCreateView(LoginRequiredMixin,CreateView):
     model = Project
+    template_name = 'users/users-project_form.html'
     fields = ['title','blurb','description']
     
     def form_valid(self,form):
@@ -100,11 +101,12 @@ class ProjectCreateView(LoginRequiredMixin,CreateView):
 
 class ProjectDetailView(LoginRequiredMixin,DetailView):
     model = Project
-    template_name = 'users/projectdetails.html'
+    template_name = 'users/users-projectdetails.html'
 
 class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
     fields = ['title','blurb','description']
+    template_name = 'users/users-project_form.html'
 
     def form_valid(self,form):
         form.instance.user = self.request.user
@@ -118,7 +120,7 @@ class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
 
 class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Project
-    template_name = 'users/project_confirm_delete.html'
+    template_name = 'users/users-project_confirm_delete.html'
     success_url = reverse_lazy('users-myprojects')
 
     def test_func(self):
