@@ -1,0 +1,18 @@
+{% extends 'main/main-base.html' %}
+{% block content %}
+<div class='page-title'>
+    <h1>{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+    <p>{{ profile.grade }}th grade</p>
+</div>
+<div class="student-projects-div">
+    <h1>My classes</h1>
+    {% for classroom in classrooms %}
+        <h3><a href="{% url 'classroom-classroom-main' classroom.title classroom.pk %}">{{ classroom.title }}</a></h3>
+    {% endfor %}
+    <h1>My projects</h1>
+    {% for project in projects %}
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.blurb }}</p>
+    {% endfor %}
+</div>
+{% endblock content %}
