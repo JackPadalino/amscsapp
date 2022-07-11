@@ -36,3 +36,7 @@ def StudentDetailsView(request,pk):
         'projects':projects
     }
     return render(request,'classroom/classroom-studentdetails.html',context)
+
+class ProjectDetailView(LoginRequiredMixin,DetailView):
+    model = Project
+    template_name = 'classroom/classroom-projectdetails.html'
