@@ -5,6 +5,9 @@
     <div class="card-body project-card-body">
         <h1>{{ project.title }}</h1>
         <h3>{{ project.blurb }}</h3>
+        {% if project.project_link %}
+            <p><a href="{{ project.project_link }}">Link to my project</a></p>
+        {% endif %}
         <br>
         <fieldset class='form-group'>
             <legend class='border-bottom mb-4'>Project information</legend>

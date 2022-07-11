@@ -31,6 +31,7 @@ class Project(models.Model):
     title = models.CharField(max_length=50,default='My project')
     blurb = models.CharField(max_length=100,default='Check out my project!')
     description = models.TextField(default="I haven't written my project description yet, but trust me it will be awesome!")
+    project_link = models.URLField(max_length=1000,default=None,blank=True)
     #video = models.CharField(max_length=1000,blank=True)
     #image = models.ImageField(default=None,blank=True)
 
