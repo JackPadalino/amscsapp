@@ -110,11 +110,11 @@ class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    #def test_func(self):
-    #    project = self.get_object()
-    #    if self.request.user == project.student:
-    #        return True
-    #    return False
+    def test_func(self):
+        project = self.get_object()
+        if self.request.user == project.user:
+            return True
+        return False
 
 class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Project

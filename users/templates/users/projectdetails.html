@@ -13,6 +13,8 @@
         <br>
     </div>
 </div>
+<a href="{% url 'users-updateproject' project.pk %}">Edit project</a>
+<br>
 <a href="{% url 'users-deleteproject' project.pk %}">Delete project</a>
 <br>
 <a href="{% url 'users-myprojects' %}">Back to My projects</a>
