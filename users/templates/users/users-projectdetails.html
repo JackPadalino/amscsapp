@@ -17,12 +17,10 @@
             <legend class='border-bottom mb-4'>Project media</legend>
             {% for project_video in project.project_videos.all %}
                 <div class='video-div'>
-                    <!--<h3>Video upload coming soon!</h3>-->
                     {% video project_video.video '300x300' %}
                     <br>
                     <small><a href="#">Delete video</a></small>
                 </div>
-                <!--<a href="{{ project_video.video }}">Video</a>-->
             {% endfor %}
         </fieldset>
         <br>
