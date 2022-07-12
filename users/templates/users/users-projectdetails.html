@@ -19,7 +19,9 @@
                 <div class='video-div'>
                     {% video project_video.video '300x300' %}
                     <br>
-                    <small><a href="#">Delete video</a></small>
+                    {% if user == project.user %}
+                        <small><a href="#">Delete video</a></small>
+                    {% endif %}
                 </div>
             {% endfor %}
         </fieldset>
