@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView, CreateView,UpdateView,Del
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectVideoForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from .models import Profile,Project
+from .models import Profile,Project,ProjectVideo
 import re
 import os
 
@@ -102,6 +102,11 @@ class ProjectCreateView(LoginRequiredMixin,CreateView):
 class ProjectDetailView(LoginRequiredMixin,DetailView):
     model = Project
     template_name = 'users/users-projectdetails.html'
+    #context_object_name = 'videos'
+    
+    #def get_queryset(self):
+    #    self.project = get_object_or_404(Project,pk=self.kwargs['pk'])
+    #    return self.project.project_videos.all()
 
 class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
@@ -146,3 +151,16 @@ def AddProjectVideoView(request,pk):
         'project':project
     }
     return render(request,'users/users-add_video.html',context)
+
+'''
+class ProjectVideoDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model = ProjectVideo
+    template_name = 'users/users-project_video_confirm_delete.html'
+    #success_url = reverse_lazy('users-projectdetails',pk=project_pk)
+
+    #def test_func(self):
+    #    project = self.get_object()
+    #    if self.request.user == project.user:
+    #        return True
+    #    return False
+'''

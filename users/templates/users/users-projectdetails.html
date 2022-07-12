@@ -1,5 +1,6 @@
 {% extends 'main/main-base.html' %}
 {% load crispy_forms_tags %}
+{% load embed_video_tags %}
 {% block content %}
 <div class="card project-card">
     <div class="card-body project-card-body">
@@ -10,8 +11,19 @@
         {% endif %}
         <br>
         <fieldset class='form-group'>
-            <legend class='border-bottom mb-4'>Project information</legend>
+            <legend class='border-bottom mb-4'>Project description</legend>
             <p>{{ project.description }}</p>
+            <br>
+            <legend class='border-bottom mb-4'>Project media</legend>
+            {% for project_video in project.project_videos.all %}
+                <div class='video-div'>
+                    <!--<h3>Video upload coming soon!</h3>-->
+                    {% video project_video.video '300x300' %}
+                    <br>
+                    <small><a href="#">Delete video</a></small>
+                </div>
+                <!--<a href="{{ project_video.video }}">Video</a>-->
+            {% endfor %}
         </fieldset>
         <br>
     </div>
