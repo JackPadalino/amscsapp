@@ -43,14 +43,14 @@ class Project(models.Model):
 
 class ProjectPhoto(models.Model):
     project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='project_photos')
-    image = models.ImageField(blank=True,default=None)
+    image = models.ImageField(default=None)
 
     def __str__(self):
         return f'{self.project}'
 
 class ProjectVideo(models.Model):
     project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='project_videos')
-    video = models.CharField(max_length=1000,blank=True,default=None)
+    video = models.CharField(max_length=1000,default=None)
 
     def __str__(self):
         return f'{self.project}'

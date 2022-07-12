@@ -17,8 +17,9 @@
     </div>
 </div>
 {% if user == project.user %}
-    <a href="{% url 'users-updateproject' project.pk %}">Edit project</a>
-    <br>
+    <a href="{% url 'users-updateproject' project.pk %}">Edit text</a>
+    <a href ="{% url 'users-add_video' project.pk %}">Add video</a>
+    <a href ='#'>Add photo</a>
     <a href="{% url 'users-deleteproject' project.pk %}">Delete project</a>
 {% endif %}
 <br>

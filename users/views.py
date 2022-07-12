@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView,UpdateView,DeleteView
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
+from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectVideoForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Project
@@ -128,3 +128,21 @@ class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
         if self.request.user == project.user:
             return True
         return False
+
+@login_required
+def AddProjectVideoView(request,pk):
+    project = get_object_or_404(Project,pk=pk)
+    if request.method == 'POST':
+        form = ProjectVideoForm(request.POST)
+        if form.is_valid():
+            video = form.save(commit=False)
+            video.project = project
+            video.save()
+            return redirect('users-projectdetails',pk=project.pk)
+    else:
+        form = ProjectVideoForm()
+    context = {
+        'form':form,
+        'project':project
+    }
+    return render(request,'users/users-add_video.html',context)
