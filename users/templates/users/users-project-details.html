@@ -5,6 +5,12 @@
 <div class="card project-card">
     <div class="card-body project-card-body">
         <h1>{{ project.title }}</h1>
+        {% if user == project.user %}
+            <a href="{% url 'users-update-project' project.pk %}">Edit text</a>
+            <a href ="{% url 'users-add-video' project.pk %}">Add video</a>
+            <a href ='#'>Add photo</a>
+            <a href="{% url 'users-delete-project' project.pk %}">Delete project</a>
+        {% endif %}
         <h3>{{ project.blurb }}</h3>
         {% if project.project_link %}
             <p><a href="{{ project.project_link }}">Link to my project</a></p>
@@ -29,11 +35,8 @@
     </div>
 </div>
 {% if user == project.user %}
-    <a href="{% url 'users-update-project' project.pk %}">Edit text</a>
-    <a href ="{% url 'users-add-video' project.pk %}">Add video</a>
-    <a href ='#'>Add photo</a>
-    <a href="{% url 'users-delete-project' project.pk %}">Delete project</a>
+    <a href="{% url 'users-my-projects' %}">Back to My projects</a>
 {% endif %}
 <br>
-<a href="{% url 'users-my-projects' %}">Back to My projects</a>
+<a href="{{ request.META.HTTP_REFERER }}">Back to previous page</a>
 {% endblock content %}
