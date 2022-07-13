@@ -152,6 +152,10 @@ def AddProjectVideoView(request,pk):
     }
     return render(request,'users/users-add-video.html',context)
 
+ # Created function based views for 'project video confirm delete' and 'project video delete' instead
+ # of class-based views as a result of multiple pieces of information needing to be passed into urls and
+ # templates. Needed a project_pk to be passed in to redirect back to the project-details page after
+ # deleting a video, and needed a video_pk to delete the correct project video object.
 @login_required
 def ProjectVideoConfirmDeleteView(request,project_pk,video_pk):
     context = {
