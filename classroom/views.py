@@ -35,7 +35,7 @@ def StudentDetailsView(request,pk):
         'classrooms':classrooms,
         'projects':projects
     }
-    return render(request,'classroom/classroom-studentdetails.html',context)
+    return render(request,'classroom/classroom-student-details.html',context)
 
 #class ProjectDetailView(LoginRequiredMixin,DetailView):
 #    model = Project
@@ -49,4 +49,4 @@ def ProjectDetailView(request,profile_pk,project_pk):
         'profile':profile,
         'project':project
     }
-    return render(request,'classroom/classroom-projectdetails.html',context)
+    return render(request,'classroom/classroom-project-details.html',context)

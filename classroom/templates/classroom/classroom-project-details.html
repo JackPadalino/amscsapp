@@ -1,5 +1,6 @@
 {% extends 'main/main-base.html' %}
 {% load crispy_forms_tags %}
+{% load embed_video_tags %}
 {% block content %}
 <div class="card project-card">
     <div class="card-body project-card-body">
@@ -8,18 +9,20 @@
         {% if project.project_link %}
             <p><a href="{{ project.project_link }}">Link to my project</a></p>
         {% endif %}
+        <br>
         <fieldset class='form-group'>
-            <legend class='border-bottom mb-4'>Project information</legend>
+            <legend class='border-bottom mb-4'>Project description</legend>
             <p>{{ project.description }}</p>
+            <br>
+            <legend class='border-bottom mb-4'>Project media</legend>
+            {% for project_video in project.project_videos.all %}
+                <div class='video-div'>
+                    {% video project_video.video '300x300' %}
+                </div>
+            {% endfor %}
         </fieldset>
         <br>
     </div>
 </div>
-{% if user == project.user %}
-    <a href="{% url 'users-update-project' project.pk %}">Edit project</a>
-    <br>
-    <a href="{% url 'users-delete-project' project.pk %}">Delete project</a>
-{% endif %}
-<br>
-<a href="{% url 'classroom-studentdetails' profile.pk %}">Back to student profile</a>
+<a href="{% url 'classroom-student-details' profile.pk %}">Back to student profile</a>
 {% endblock content %}

@@ -6,7 +6,7 @@
 <div class="student-profiles-div">
     {% for profile in profiles %}
         <!--<h1><a href= url 'classroom-classroom-main' class.title class.pk %}">{{ class.title}}</a></h1>-->
-        <h1><a href="{% url 'classroom-studentdetails' profile.pk %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a></h1>
+        <h1><a href="{% url 'classroom-student-details' profile.pk %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a></h1>
     {% endfor %}    
 </div>
 {% endblock content %}

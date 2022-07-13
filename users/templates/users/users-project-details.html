@@ -24,8 +24,8 @@
             {% for project_video in project.project_videos.all %}
                 <div class='video-div'>
                     {% video project_video.video '300x300' %}
-                    <br>
                     {% if user == project.user %}
+                        <br>
                         <a href="{% url 'users-confirm-delete-video' project.pk project_video.pk %}">Delete video</a>
                     {% endif %}
                 </div>
@@ -37,6 +37,4 @@
 {% if user == project.user %}
     <a href="{% url 'users-my-projects' %}">Back to My projects</a>
 {% endif %}
-<br>
-<a href="{{ request.META.HTTP_REFERER }}">Back to previous page</a>
 {% endblock content %}
