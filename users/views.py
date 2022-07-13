@@ -56,7 +56,7 @@ def profile(request):
             u_form.save()
             p_form.save()
             messages.success(request,f'Your account information has been updated.')
-            return redirect('users-myprofile')
+            return redirect('users-my-profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
@@ -73,10 +73,10 @@ def profile(request):
         'user_answers':user_answers,
         'user_solutions':user_solutions
     }
-    return render(request,'users/users-myprofile.html',context)
+    return render(request,'users/users-my-profile.html',context)
 
 class MyClassesListView(LoginRequiredMixin,ListView):
-    template_name = 'users/users-myclasses.html'
+    template_name = 'users/users-my-classes.html'
     context_object_name = 'classes'
 
     def get_queryset(self):
@@ -84,7 +84,7 @@ class MyClassesListView(LoginRequiredMixin,ListView):
         return profile.classes.all()
 
 class MyProjectsListView(LoginRequiredMixin,ListView):
-    template_name = 'users/users-myprojects.html'
+    template_name = 'users/users-my-projects.html'
     context_object_name = 'projects'
 
     def get_queryset(self):
@@ -101,7 +101,7 @@ class ProjectCreateView(LoginRequiredMixin,CreateView):
 
 class ProjectDetailView(LoginRequiredMixin,DetailView):
     model = Project
-    template_name = 'users/users-projectdetails.html'
+    template_name = 'users/users-project-details.html'
     #context_object_name = 'videos'
     
     #def get_queryset(self):
@@ -126,7 +126,7 @@ class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
 class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Project
     template_name = 'users/users-project_confirm_delete.html'
-    success_url = reverse_lazy('users-myprojects')
+    success_url = reverse_lazy('users-my-projects')
 
     def test_func(self):
         project = self.get_object()
@@ -143,24 +143,25 @@ def AddProjectVideoView(request,pk):
             video = form.save(commit=False)
             video.project = project
             video.save()
-            return redirect('users-projectdetails',pk=project.pk)
+            return redirect('users-project-details',pk=project.pk)
     else:
         form = ProjectVideoForm()
     context = {
         'form':form,
         'project':project
     }
-    return render(request,'users/users-add_video.html',context)
+    return render(request,'users/users-add-video.html',context)
 
-'''
-class ProjectVideoDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
-    model = ProjectVideo
-    template_name = 'users/users-project_video_confirm_delete.html'
-    #success_url = reverse_lazy('users-projectdetails',pk=project_pk)
+@login_required
+def ProjectVideoConfirmDeleteView(request,project_pk,video_pk):
+    context = {
+        'project_pk':project_pk,
+        'video_pk':video_pk
+    }
+    return render(request,'users/users-project-video-confirm-delete.html',context)
 
-    #def test_func(self):
-    #    project = self.get_object()
-    #    if self.request.user == project.user:
-    #        return True
-    #    return False
-'''
+@login_required
+def ProjectVideoDeleteView(request,project_pk,video_pk):
+    video  = ProjectVideo.objects.get(pk=video_pk)
+    video.delete()
+    return redirect('users-project-details',pk=project_pk)

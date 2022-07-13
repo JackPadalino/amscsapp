@@ -36,7 +36,7 @@ class Project(models.Model):
     #image = models.ImageField(default=None,blank=True)
 
     def get_absolute_url(self):
-        return reverse('users-projectdetails',kwargs={'pk':self.pk})
+        return reverse('users-project-details',kwargs={'pk':self.pk})
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name} - {self.title}'

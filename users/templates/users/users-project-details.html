@@ -20,7 +20,7 @@
                     {% video project_video.video '300x300' %}
                     <br>
                     {% if user == project.user %}
-                        <small><a href="#">Delete video</a></small>
+                        <a href="{% url 'users-confirm-delete-video' project.pk project_video.pk %}">Delete video</a>
                     {% endif %}
                 </div>
             {% endfor %}
@@ -29,11 +29,11 @@
     </div>
 </div>
 {% if user == project.user %}
-    <a href="{% url 'users-updateproject' project.pk %}">Edit text</a>
-    <a href ="{% url 'users-add_video' project.pk %}">Add video</a>
+    <a href="{% url 'users-update-project' project.pk %}">Edit text</a>
+    <a href ="{% url 'users-add-video' project.pk %}">Add video</a>
     <a href ='#'>Add photo</a>
-    <a href="{% url 'users-deleteproject' project.pk %}">Delete project</a>
+    <a href="{% url 'users-delete-project' project.pk %}">Delete project</a>
 {% endif %}
 <br>
-<a href="{% url 'users-myprojects' %}">Back to My projects</a>
+<a href="{% url 'users-my-projects' %}">Back to My projects</a>
 {% endblock content %}

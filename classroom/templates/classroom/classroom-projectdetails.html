@@ -16,9 +16,9 @@
     </div>
 </div>
 {% if user == project.user %}
-    <a href="{% url 'users-updateproject' project.pk %}">Edit project</a>
+    <a href="{% url 'users-update-project' project.pk %}">Edit project</a>
     <br>
-    <a href="{% url 'users-deleteproject' project.pk %}">Delete project</a>
+    <a href="{% url 'users-delete-project' project.pk %}">Delete project</a>
 {% endif %}
 <br>
 <a href="{% url 'classroom-studentdetails' profile.pk %}">Back to student profile</a>
