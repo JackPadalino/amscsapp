@@ -7,6 +7,7 @@
         <h1>{{ project.title }}</h1>
         {% if user == project.user %}
             <a href="{% url 'users-update-project' project.pk %}">Edit text</a>
+            <a href="{% url 'users-add-link' project.pk %}">Add link</a>
             <a href ="{% url 'users-add-video' project.pk %}">Add video</a>
             <a href ='#'>Add photo</a>
             <a href="{% url 'users-delete-project' project.pk %}">Delete project</a>

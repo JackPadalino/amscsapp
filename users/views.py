@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView,UpdateView,DeleteView
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectVideoForm
+from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectVideoForm,ProjectLinkForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Project,ProjectVideo
@@ -93,7 +93,7 @@ class MyProjectsListView(LoginRequiredMixin,ListView):
 class ProjectCreateView(LoginRequiredMixin,CreateView):
     model = Project
     template_name = 'users/users-project_form.html'
-    fields = ['title','classroom','blurb','project_link','description']
+    fields = ['title','blurb','description']
     
     def form_valid(self,form):
         form.instance.user = self.request.user
@@ -110,7 +110,7 @@ class ProjectDetailView(LoginRequiredMixin,DetailView):
 
 class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
-    fields = ['title','classroom','blurb','project_link','description']
+    fields = ['title','blurb','description']
     template_name = 'users/users-project_form.html'
 
     def form_valid(self,form):
@@ -127,6 +127,21 @@ class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Project
     template_name = 'users/users-project_confirm_delete.html'
     success_url = reverse_lazy('users-my-projects')
+
+    def test_func(self):
+        project = self.get_object()
+        if self.request.user == project.user:
+            return True
+        return False
+
+class AddProjectLinkView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model = Project
+    fields = ['project_link']
+    template_name = 'users/users-add-link.html'
+
+    def form_valid(self,form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
     def test_func(self):
         project = self.get_object()

@@ -11,7 +11,8 @@ from .views import (
     ProjectUpdateView,
     AddProjectVideoView,
     ProjectVideoConfirmDeleteView,
-    ProjectVideoDeleteView
+    ProjectVideoDeleteView,
+    AddProjectLinkView
     )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -28,6 +29,7 @@ urlpatterns = [
     path('update-project/<int:pk>',ProjectUpdateView.as_view(),name='users-update-project'),
     path('delete-project/<int:pk>/',ProjectDeleteView.as_view(),name='users-delete-project'),
     path('add-video/<int:pk>/',AddProjectVideoView,name='users-add-video'),
+    path('add-link/<int:pk>/',AddProjectLinkView.as_view(),name='users-add-link'),
     path('confirm-delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoConfirmDeleteView,name='users-confirm-delete-video'),
     path('delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoDeleteView,name='users-delete-video')
     #path('account/<int:pk>/delete/',UserDeleteView.as_view(),name='account-delete'),
