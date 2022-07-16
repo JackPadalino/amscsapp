@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <h1>{{ project.title }} - {{ project.user }}</h1>
-<div class="card project-card" style="width: 800px;">
+<div class="card project-card">
     <div class="card-body project-card-body">
         <form method="POST" enctype='multipart/form-data'>
             {% csrf_token %}
