@@ -65,7 +65,7 @@ class ProjectComment(models.Model):
         return reverse('comment-details',kwargs={'pk':self.category.pk})
 
     def __str__(self):
-        return f"{self.author} commented on {self.project.user.first_name} {self.project.user.last_name}'s project"
+        return f"{self.author.first_name} {self.author.last_name} commented on {self.project.user.first_name} {self.project.user.last_name}'s project"
 
 class ProjectCommentNotification(models.Model):
     comment = models.OneToOneField(ProjectComment,on_delete=models.CASCADE)
