@@ -1,11 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView,DetailView
 from django.contrib.auth.models import User
 from .models import SchoolYear,Classroom
-from users.models import Profile,Project
+from users.models import Profile,Project,ProjectComment
+from users.forms import CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 
 class ClassDetailView(LoginRequiredMixin,DetailView):
@@ -43,10 +44,24 @@ def StudentDetailsView(request,pk):
 
 @login_required
 def ProjectDetailView(request,profile_pk,project_pk):
+    user=request.user
     profile = Profile.objects.get(pk=profile_pk)
     project = Project.objects.get(pk=project_pk)
+    comments = ProjectComment.objects.filter(project=project)
+    comment_form = CommentForm()
+    if request.method == 'POST':
+        #if 'commentbutton' in request.POST:
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.project = project
+            comment.author = user
+            comment.save()
+            return redirect('classroom-project-details',profile_pk=profile.pk,project_pk=project.pk)
     context = {
         'profile':profile,
-        'project':project
+        'project':project,
+        'comments':comments,
+        'comment_form':comment_form,
     }
     return render(request,'classroom/classroom-project-details.html',context)

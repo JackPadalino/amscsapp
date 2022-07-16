@@ -25,4 +25,34 @@
     </div>
 </div>
 <a href="{% url 'classroom-student-details' profile.pk %}">Back to student profile</a>
+
+{% if not comments %}
+<br><br>
+<h3>No comments yet...</h3>
+<!--<a href=url 'add-comment' project.pk >Add Comment</a>-->
+{% else %}
+<br><br>
+<h3>Comments</h3>
+{% for comment in comments %}
+    <b>{{ comment.author.first_name }} {{ comment.author.last_name }}</b>
+    <p>{{ comment.content }}</p>
+{% endfor %}
+<!--<a href= url 'add-comment' project.pk >Add Comment</a>-->
+{% endif %}
+<br>
+{% if project.user != user %}
+<h3>Add comment</h3>
+<div class='register-login-profile-form'>
+    <form method="POST" class='comment-form'>
+        <fieldset class="form-group">
+            {% csrf_token %} 
+            {{ comment_form|crispy }}
+        </fieldset>
+        <br>
+        <div class='form-group'>
+            <button class="btn btn-outline-success comment-button" type='submit' name='commentbutton'>Add comment</button>
+        </div>
+    </form>
+</div>
+{% endif %}
 {% endblock content %}
