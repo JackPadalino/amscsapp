@@ -93,7 +93,7 @@ class MyProjectsListView(LoginRequiredMixin,ListView):
 class ProjectCreateView(LoginRequiredMixin,CreateView):
     model = Project
     template_name = 'users/users-project_form.html'
-    fields = ['title','blurb','project_link','description']
+    fields = ['title','classroom','blurb','project_link','description']
     
     def form_valid(self,form):
         form.instance.user = self.request.user
@@ -110,7 +110,7 @@ class ProjectDetailView(LoginRequiredMixin,DetailView):
 
 class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
-    fields = ['title','blurb','project_link','description']
+    fields = ['title','classroom','blurb','project_link','description']
     template_name = 'users/users-project_form.html'
 
     def form_valid(self,form):
