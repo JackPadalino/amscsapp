@@ -9,7 +9,7 @@
             <a href="{% url 'users-update-project' project.pk %}">Edit text</a>
             <a href="{% url 'users-add-link' project.pk %}">Add link</a>
             <a href ="{% url 'users-add-video' project.pk %}">Add video</a>
-            <a href ='#'>Add photo</a>
+            <a href ="{% url 'users-add-project-photo' project.pk %}">Add photo</a>
             <a href="{% url 'users-delete-project' project.pk %}">Delete project</a>
         {% endif %}
         <h3>{{ project.blurb }}</h3>
@@ -29,6 +29,12 @@
                         <br>
                         <a href="{% url 'users-confirm-delete-video' project.pk project_video.pk %}">Delete video</a>
                     {% endif %}
+                </div>
+            {% endfor %}
+            <br>
+            {% for photo in project.project_photos.all %}
+                <div class='project-photo-div'>
+                    <image style='height:300px;width:300px;' src="{{ photo.image.url }}"></image>
                 </div>
             {% endfor %}
         </fieldset>

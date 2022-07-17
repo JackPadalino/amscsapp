@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView,UpdateView,DeleteView
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectVideoForm,ProjectLinkForm
+from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectVideoForm,ProjectLinkForm,ProjectPhotoForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Project,ProjectVideo
@@ -33,17 +33,13 @@ def register(request):
     else:
         form = UserRegisterForm()
     context = {
-        'title':'Register',
         'form':form
     }
     return render(request,'users/users-register.html',context)
 
 # login view
 def login(request):
-    context = {
-        'title':'Login',
-    }
-    return render(request,'users/users-login.html',context)
+    return render(request,'users/users-login.html')
 
 # profile details/update view
 @login_required
@@ -65,7 +61,6 @@ def profile(request):
     user_answers = len(request.user.answers.all())
     user_solutions = len(request.user.answers.filter(solution=True))
     context = {
-        'title':'My Profile',
         'u_form':u_form,
         'p_form':p_form,
         'classes':classes,
@@ -184,3 +179,21 @@ def ProjectVideoDeleteView(request,project_pk,video_pk):
     video  = ProjectVideo.objects.get(pk=video_pk)
     video.delete()
     return redirect('users-project-details',pk=project_pk)
+
+@login_required
+def AddProjectPhotoView(request,pk):
+    project = get_object_or_404(Project,pk=pk)
+    if request.method == 'POST':
+        form = ProjectPhotoForm(request.POST,request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.project = project
+            photo.save()
+            return redirect('users-project-details',pk=project.pk)
+    else:
+        form = ProjectPhotoForm()
+    context = {
+        'form':form,
+        'project':project
+    }
+    return render(request,'users/users-add-photo.html',context)

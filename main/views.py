@@ -8,10 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 
 
 def home(request):
-    context = {
-        'title':'Home',
-    }
-    return render(request,'main/main-home.html',context)
+    return render(request,'main/main-home.html')
 
 class SchoolYearListView(LoginRequiredMixin,ListView):
     model = SchoolYear

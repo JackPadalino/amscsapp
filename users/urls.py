@@ -12,7 +12,8 @@ from .views import (
     AddProjectVideoView,
     ProjectVideoConfirmDeleteView,
     ProjectVideoDeleteView,
-    AddProjectLinkView
+    AddProjectLinkView,
+    AddProjectPhotoView
     )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -31,7 +32,8 @@ urlpatterns = [
     path('add-video/<int:pk>/',AddProjectVideoView,name='users-add-video'),
     path('add-link/<int:pk>/',AddProjectLinkView.as_view(),name='users-add-link'),
     path('confirm-delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoConfirmDeleteView,name='users-confirm-delete-video'),
-    path('delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoDeleteView,name='users-delete-video')
+    path('delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoDeleteView,name='users-delete-video'),
+    path('add-project-photo/<int:pk>/',AddProjectPhotoView,name='users-add-project-photo'),
     #path('account/<int:pk>/delete/',UserDeleteView.as_view(),name='account-delete'),
     #path('password-reset/',auth_views.PasswordResetView.as_view(template_name='users/password_reset.html'),name='password_reset'),
     #path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),name='password_reset_done'),
