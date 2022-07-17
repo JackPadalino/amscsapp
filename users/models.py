@@ -18,7 +18,7 @@ class Profile(models.Model):
     classes = models.ManyToManyField(Classroom,blank=True,default=None,related_name='profiles')
     grade = models.IntegerField(choices=grades,default=0)
     solutions = models.IntegerField(default=0)
-    image = models.ImageField(blank=True,default=None)
+    image = models.ImageField(blank=True,default=None,upload_to='profile_pics')
 
     #def get_absolute_url(self):
     #    return reverse('profile-details',kwargs={'pk':self.category.pk})
@@ -44,7 +44,7 @@ class Project(models.Model):
 
 class ProjectPhoto(models.Model):
     project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='project_photos')
-    image = models.ImageField(default=None)
+    image = models.ImageField(default=None,upload_to='project_pics')
 
     def __str__(self):
         return f'{self.project}'
