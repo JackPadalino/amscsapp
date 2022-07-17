@@ -1,13 +1,13 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404,redirect
+from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView,DetailView,UpdateView
+from django.views.generic import ListView,DetailView,UpdateView,DeleteView
 from django.contrib.auth.models import User
 from users.views import login
 from .models import SchoolYear,Classroom
 from users.models import Profile,Project,ProjectComment
 from users.forms import CommentForm
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 
 class ClassDetailView(LoginRequiredMixin,DetailView):
@@ -67,7 +67,7 @@ def ProjectDetailView(request,profile_pk,project_pk):
     }
     return render(request,'classroom/classroom-project-details.html',context)
 
-class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+class ProjectCommentUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = ProjectComment
     fields = ['content']
     template_name = 'classroom/classroom-update-comment.html'
@@ -76,6 +76,19 @@ class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
     
+    def test_func(self):
+        comment = self.get_object()
+        if comment.author == self.request.user:
+            return True
+        return False
+
+class ProjectCommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model = ProjectComment
+    template_name = 'classroom/classroom-project_comment_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy( 'classroom-project-details', kwargs={'profile_pk': self.object.project.user.profile.id,'project_pk':self.object.project.pk})
+
     def test_func(self):
         comment = self.get_object()
         if comment.author == self.request.user:
