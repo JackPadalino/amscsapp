@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView, CreateView,UpdateView,Del
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectVideoForm,ProjectLinkForm,ProjectPhotoForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from .models import Profile,Project,ProjectVideo
+from .models import Profile,Project,ProjectVideo,ProjectPhoto
 import re
 import os
 
@@ -162,10 +162,10 @@ def AddProjectVideoView(request,pk):
     }
     return render(request,'users/users-add-video.html',context)
 
- # Created function based views for 'project video confirm delete' and 'project video delete' instead
- # of class-based views as a result of multiple pieces of information needing to be passed into urls and
- # templates. Needed a project_pk to be passed in to redirect back to the project-details page after
- # deleting a video, and needed a video_pk to delete the correct project video object.
+# Created function based views for 'project video confirm delete' and 'project video delete' instead
+# of class-based views as a result of multiple pieces of information needing to be passed into urls and
+# templates. Needed a project_pk to be passed in to redirect back to the project-details page after
+# deleting a video, and needed a video_pk to delete the correct project video object.
 @login_required
 def ProjectVideoConfirmDeleteView(request,project_pk,video_pk):
     context = {
@@ -197,3 +197,21 @@ def AddProjectPhotoView(request,pk):
         'project':project
     }
     return render(request,'users/users-add-photo.html',context)
+
+# Created function based views for 'project photo confirm delete' and 'project photo delete' instead
+# of class-based views as a result of multiple pieces of information needing to be passed into urls and
+# templates. Needed a project_pk to be passed in to redirect back to the project-details page after
+# deleting a photo, and needed a photo_pk to delete the correct project photo object.
+@login_required
+def ProjectPhotoConfirmDeleteView(request,project_pk,project_photo_pk):
+    context = {
+        'project_pk':project_pk,
+        'project_photo_pk':project_photo_pk
+    }
+    return render(request,'users/users-project-photo-confirm-delete.html',context)
+
+@login_required
+def ProjectPhotoDeleteView(request,project_pk,project_photo_pk):
+    photo  = ProjectPhoto.objects.get(pk=project_photo_pk)
+    photo.delete()
+    return redirect('users-project-details',pk=project_pk)

@@ -144,7 +144,7 @@ MESSAGE_TAGS = {
 }
 
 # file storage - comment out DEFAULT_FILE_STORAGE to store everything locally
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # AWS S3 file storage
 AWS_ACCESS_KEY_ID = os.environ.get('AMSCSAPP_AWS_ACCESS_KEY_ID')

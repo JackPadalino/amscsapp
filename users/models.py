@@ -52,6 +52,9 @@ class ProjectPhoto(models.Model):
 class ProjectVideo(models.Model):
     project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='project_videos')
     video = models.CharField(max_length=1000,default=None)
+    
+    def get_absolute_url(self):
+        return reverse('users-project-details',kwargs={'pk':self.project.pk})
 
     def __str__(self):
         return f'{self.project}'

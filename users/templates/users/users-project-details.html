@@ -32,9 +32,13 @@
                 </div>
             {% endfor %}
             <br>
-            {% for photo in project.project_photos.all %}
+            {% for project_photo in project.project_photos.all %}
                 <div class='project-photo-div'>
-                    <image style='height:300px;width:300px;' src="{{ photo.image.url }}"></image>
+                    <image style='height:300px;width:300px;' src="{{ project_photo.image.url }}"></image>
+                    {% if user == project.user %}
+                        <br>
+                        <a href="{% url 'users-confirm-delete-project-photo' project.pk project_photo.pk %}">Delete photo</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </fieldset>

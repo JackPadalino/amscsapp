@@ -13,7 +13,9 @@ from .views import (
     ProjectVideoConfirmDeleteView,
     ProjectVideoDeleteView,
     AddProjectLinkView,
-    AddProjectPhotoView
+    AddProjectPhotoView,
+    ProjectPhotoConfirmDeleteView,
+    ProjectPhotoDeleteView
     )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -26,14 +28,16 @@ urlpatterns = [
     path('my-classes/',MyClassesListView.as_view(),name='users-my-classes'),
     path('my-projects/',MyProjectsListView.as_view(),name='users-my-projects'),
     path('create-project/',ProjectCreateView.as_view(),name='users-create-project'),
-    path('project-details/<int:pk>',ProjectDetailView.as_view(),name='users-project-details'),
-    path('update-project/<int:pk>',ProjectUpdateView.as_view(),name='users-update-project'),
+    path('project-details/<int:pk>/',ProjectDetailView.as_view(),name='users-project-details'),
+    path('update-project/<int:pk>/',ProjectUpdateView.as_view(),name='users-update-project'),
     path('delete-project/<int:pk>/',ProjectDeleteView.as_view(),name='users-delete-project'),
     path('add-video/<int:pk>/',AddProjectVideoView,name='users-add-video'),
     path('add-link/<int:pk>/',AddProjectLinkView.as_view(),name='users-add-link'),
     path('confirm-delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoConfirmDeleteView,name='users-confirm-delete-video'),
     path('delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoDeleteView,name='users-delete-video'),
     path('add-project-photo/<int:pk>/',AddProjectPhotoView,name='users-add-project-photo'),
+    path('confirm-delete-project-photo/<int:project_pk>/<int:project_photo_pk>/',ProjectPhotoConfirmDeleteView,name='users-confirm-delete-project-photo'),
+    path('delete-project-photo/<int:project_pk>/<int:project_photo_pk>/',ProjectPhotoDeleteView,name='users-delete-project-photo'),
     #path('account/<int:pk>/delete/',UserDeleteView.as_view(),name='account-delete'),
     #path('password-reset/',auth_views.PasswordResetView.as_view(template_name='users/password_reset.html'),name='password_reset'),
     #path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),name='password_reset_done'),
