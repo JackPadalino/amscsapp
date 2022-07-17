@@ -2,8 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView,DetailView,UpdateView
 from django.contrib.auth.models import User
+from users.views import login
 from .models import SchoolYear,Classroom
 from users.models import Profile,Project,ProjectComment
 from users.forms import CommentForm
@@ -65,3 +66,18 @@ def ProjectDetailView(request,profile_pk,project_pk):
         'comment_form':comment_form,
     }
     return render(request,'classroom/classroom-project-details.html',context)
+
+class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model = ProjectComment
+    fields = ['content']
+    template_name = 'classroom/classroom-update-comment.html'
+
+    def form_valid(self,form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        comment = self.get_object()
+        if comment.author == self.request.user:
+            return True
+        return False

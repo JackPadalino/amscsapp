@@ -35,7 +35,9 @@
 <h3>Comments</h3>
 {% for comment in comments %}
     <b>{{ comment.author.first_name }} {{ comment.author.last_name }}</b>
-    <p>{{ comment.content }}</p>
+    <p>{{ comment.content }}</p> 
+    <a href="{% url 'classroom-update-comment' comment.pk %}">Edit</a>
+    <br>
 {% endfor %}
 <!--<a href= url 'add-comment' project.pk >Add Comment</a>-->
 {% endif %}

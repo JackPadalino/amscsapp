@@ -62,7 +62,7 @@ class ProjectComment(models.Model):
     content = models.TextField()
 
     def get_absolute_url(self):
-        return reverse('comment-details',kwargs={'pk':self.category.pk})
+        return reverse('classroom-project-details',kwargs={'profile_pk':self.project.user.profile.pk,'project_pk':self.project.pk})
 
     def __str__(self):
         return f"{self.author.first_name} {self.author.last_name} commented on {self.project.user.first_name} {self.project.user.last_name}'s project"
