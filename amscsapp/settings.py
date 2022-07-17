@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&lsw!90f_*=s8l4jj17em-4@5%bf#*twx*9d=ot@s^54q05c$8'
+#SECRET_KEY = os.environ.get('AMSCSAPP_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'storages',
     'embed_video',
     'main',
     'classroom',
@@ -140,3 +142,14 @@ LOGIN_URL = 'users-login'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+# file storage - comment out DEFAULT_FILE_STORAGE to store everything locally
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# AWS S3 file storage
+AWS_ACCESS_KEY_ID = os.environ.get('AMSCSAPP_AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AMSCSAPP_AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AMSCSAPP_AWS_STORAGE_BUCKET_NAME')
+EXAP_AWS_USER=os.environ.get('AMSCSAPP_AWS_S3_USER')
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
