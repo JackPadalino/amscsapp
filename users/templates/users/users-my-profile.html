@@ -1,13 +1,6 @@
 {% extends 'main/main-base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-        <div class='alert alert-{{ message.tags }} alert-messages'>
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
 <div class="card project-card">
     <div class="card-body profile-card-body">
         <h1>{{ user.first_name }} {{ user.last_name }}</h1>

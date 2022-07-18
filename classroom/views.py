@@ -3,6 +3,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView,DetailView,UpdateView,DeleteView
 from django.contrib.auth.models import User
+from django.contrib import messages
 from users.views import login
 from .models import SchoolYear,Classroom
 from users.models import Profile,Project,ProjectComment
@@ -106,6 +107,9 @@ def JoinClassView(request,classroom_pk):
             join_code = form.cleaned_data['join_code']
             if join_code == classroom.join_code:
                 classroom.profiles.add(profile)
+                messages.add_message(request,messages.SUCCESS,'You have been added to this class. Welcome to the team!')
+            else:
+                messages.add_message(request,messages.ERROR,'Oops! Something went wrong. Maybe you entered the wrong join code?')
             return redirect('classroom-classroom-main',class_title=classroom.title,pk=classroom.pk)
     else:
         form = JoinClassForm()

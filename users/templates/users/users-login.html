@@ -1,16 +1,6 @@
 {% extends 'main/main-base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class='login-register-container1'>
-    {% if messages %}
-        <div class='login-register-container2'>
-            {% for message in messages %}
-            <div class='alert alert-{{ message.tags }}'>
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-    {% endif %}
     <div class='login-register-container3'>
         <div class="card login-register-card">
             <div class="card-body login-register-card-body">
