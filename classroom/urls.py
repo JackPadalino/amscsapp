@@ -1,6 +1,14 @@
 from django.urls import path
 from . import views
-from .views import ClassDetailView, StudentProfileListView,StudentDetailsView,ProjectDetailView,ProjectCommentUpdateView,ProjectCommentDeleteView
+from .views import (
+    ClassDetailView,
+    StudentProfileListView,
+    StudentDetailsView,
+    ProjectDetailView,
+    ProjectCommentUpdateView,
+    ProjectCommentDeleteView,
+    JoinClassView
+    )
 #from users.views import ProjectDetailView
 
 urlpatterns = [
@@ -10,4 +18,5 @@ urlpatterns = [
     path('project-details/<int:profile_pk>/<int:project_pk>/',ProjectDetailView,name='classroom-project-details'),
     path('edit-comment/<int:pk>/',ProjectCommentUpdateView.as_view(),name='classroom-update-comment'),
     path('delete-comment/<int:pk>/',ProjectCommentDeleteView.as_view(),name='classroom-delete-comment'),
+    path('join-class/<int:classroom_pk>/',JoinClassView,name='classroom-join-class')
 ]

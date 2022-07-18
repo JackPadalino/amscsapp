@@ -9,6 +9,7 @@ from users.models import Profile,Project,ProjectComment
 from users.forms import CommentForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+from .forms import JoinClassForm
 
 class ClassDetailView(LoginRequiredMixin,DetailView):
     template_name = 'classroom/classroom-main.html'
@@ -49,9 +50,7 @@ def ProjectDetailView(request,profile_pk,project_pk):
     profile = Profile.objects.get(pk=profile_pk)
     project = Project.objects.get(pk=project_pk)
     comments = ProjectComment.objects.filter(project=project)
-    comment_form = CommentForm()
     if request.method == 'POST':
-        #if 'commentbutton' in request.POST:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
@@ -59,6 +58,8 @@ def ProjectDetailView(request,profile_pk,project_pk):
             comment.author = user
             comment.save()
             return redirect('classroom-project-details',profile_pk=profile.pk,project_pk=project.pk)
+    else:
+        comment_form = CommentForm()
     context = {
         'profile':profile,
         'project':project,
@@ -84,7 +85,7 @@ class ProjectCommentUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView
 
 class ProjectCommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = ProjectComment
-    template_name = 'classroom/classroom-project_comment_confirm_delete.html'
+    template_name = 'classroom/classroom-project-comment-confirm-delete.html'
 
     def get_success_url(self):
         return reverse_lazy( 'classroom-project-details', kwargs={'profile_pk': self.object.project.user.profile.id,'project_pk':self.object.project.pk})
@@ -94,3 +95,21 @@ class ProjectCommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView
         if comment.author == self.request.user:
             return True
         return False
+
+def JoinClassView(request,classroom_pk):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    classroom = Classroom.objects.get(pk=classroom_pk)
+    if request.method == 'POST':
+        form = JoinClassForm(request.POST)
+        if form.is_valid():
+            join_code = form.cleaned_data['join_code']
+            if join_code == classroom.join_code:
+                classroom.profiles.add(profile)
+            return redirect('classroom-classroom-main',class_title=classroom.title,pk=classroom.pk)
+    else:
+        form = JoinClassForm()
+    context = {
+        'form':form
+    }
+    return render(request, 'classroom/classroom-join-class.html', context)

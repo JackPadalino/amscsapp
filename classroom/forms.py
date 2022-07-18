@@ -1,8 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
-from users.models import ProjectComment
 
-#class CommentUpdateForm(forms.ModelForm):
-#    class Meta:
-#        model = ProjectComment
-#        fields = ['content']
+# form for students to join a new class
+class JoinClassForm(forms.Form):
+    join_code = forms.CharField(label='Join code',max_length=10)
