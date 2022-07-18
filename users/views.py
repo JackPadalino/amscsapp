@@ -120,7 +120,7 @@ class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
 
 class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Project
-    template_name = 'users/users-project_confirm_delete.html'
+    template_name = 'users/users-project-confirm-delete.html'
     success_url = reverse_lazy('users-my-projects')
 
     def test_func(self):
