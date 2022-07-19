@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView,UpdateView,DeleteView
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectVideoForm,ProjectLinkForm,ProjectPhotoForm
+from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectForm,ProjectVideoForm,ProjectLinkForm,ProjectPhotoForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Project,ProjectVideo,ProjectPhoto
@@ -78,21 +78,78 @@ class MyClassesListView(LoginRequiredMixin,ListView):
         profile = Profile.objects.get(user=self.request.user)
         return profile.classes.all()
 
-class MyProjectsListView(LoginRequiredMixin,ListView):
-    template_name = 'users/users-my-projects.html'
-    context_object_name = 'projects'
+@login_required
+def CreateProjectStepOneView(request):
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            title = form.cleaned_data['title']
+            blurb = form.cleaned_data['blurb']
+            description = form.cleaned_data['description']
+            project = Project.objects.create(user=user,title=title,blurb=blurb,description=description)
+            return redirect('users-create-project-step-2',pk=project.pk)
+    else:
+        form = ProjectForm()
+    context = {
+        'form':form
+    }
+    return render(request,'users/users-create-project-step-1-add-text.html',context)
 
-    def get_queryset(self):
-        return Project.objects.filter(user=self.request.user)
+@login_required
+def CreateProjectStepTwoView(request,pk):
+    project = get_object_or_404(Project,pk=pk)
+    user = request.user
+    if request.method == 'POST':
+        form = ProjectLinkForm(request.POST)
+        if form.is_valid():
+            link = form.cleaned_data['project_link']
+            project.project_link = link
+            project.save()
+            return redirect('users-create-project-step-3',pk=project.pk)
+    else:
+        form = ProjectLinkForm()
+    context = {
+        'form':form,
+        'project':project
+    }
+    return render(request,'users/users-create-project-step-2-add-link.html',context)
 
-class ProjectCreateView(LoginRequiredMixin,CreateView):
-    model = Project
-    template_name = 'users/users-create-project.html'
-    fields = ['title','blurb','description']
-    
-    def form_valid(self,form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+@login_required
+def CreateProjectStepThreeView(request,pk):
+    project = get_object_or_404(Project,pk=pk)
+    if request.method == 'POST':
+        form = ProjectVideoForm(request.POST)
+        if form.is_valid():
+            video = form.save(commit=False)
+            video.project = project
+            video.save()
+            return redirect('users-create-project-step-4',pk=project.pk)
+    else:
+        form = ProjectVideoForm()
+    context = {
+        'form':form,
+        'project':project
+    }
+    return render(request,'users/users-create-project-step-3-add-video.html',context)
+
+@login_required
+def CreateProjectStepFourView(request,pk):
+    project = get_object_or_404(Project,pk=pk)
+    if request.method == 'POST':
+        form = ProjectPhotoForm(request.POST)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.project = project
+            photo.save()
+            return redirect('users-project-details',pk=project.pk)
+    else:
+        form = ProjectPhotoForm()
+    context = {
+        'form':form,
+        'project':project
+    }
+    return render(request,'users/users-create-project-step-4-add-photo.html',context)
 
 class ProjectDetailView(LoginRequiredMixin,DetailView):
     model = Project
@@ -103,10 +160,17 @@ class ProjectDetailView(LoginRequiredMixin,DetailView):
     #    self.project = get_object_or_404(Project,pk=self.kwargs['pk'])
     #    return self.project.project_videos.all()
 
-class ProjectUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+class MyProjectsListView(LoginRequiredMixin,ListView):
+    template_name = 'users/users-my-projects.html'
+    context_object_name = 'projects'
+
+    def get_queryset(self):
+        return Project.objects.filter(user=self.request.user)
+
+class EditProjectTextView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
     fields = ['title','blurb','description']
-    template_name = 'users/users-project_form.html'
+    template_name = 'users/users-edit-project-edit-text.html'
 
     def form_valid(self,form):
         form.instance.user = self.request.user
@@ -129,10 +193,10 @@ class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
             return True
         return False
 
-class AddProjectLinkView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+class EditProjectAddLinkView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
     fields = ['project_link']
-    template_name = 'users/users-add-link.html'
+    template_name = 'users/users-edit-project-add-link.html'
 
     def form_valid(self,form):
         form.instance.user = self.request.user
@@ -145,7 +209,7 @@ class AddProjectLinkView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
         return False
 
 @login_required
-def AddProjectVideoView(request,pk):
+def EditProjectAddVideoView(request,pk):
     project = get_object_or_404(Project,pk=pk)
     if request.method == 'POST':
         form = ProjectVideoForm(request.POST)
@@ -160,7 +224,7 @@ def AddProjectVideoView(request,pk):
         'form':form,
         'project':project
     }
-    return render(request,'users/users-add-video.html',context)
+    return render(request,'users/users-edit-project-add-video.html',context)
 
 # Created function based views for 'project video confirm delete' and 'project video delete' instead
 # of class-based views as a result of multiple pieces of information needing to be passed into urls and
@@ -181,7 +245,7 @@ def ProjectVideoDeleteView(request,project_pk,video_pk):
     return redirect('users-project-details',pk=project_pk)
 
 @login_required
-def AddProjectPhotoView(request,pk):
+def EditProjectAddPhotoView(request,pk):
     project = get_object_or_404(Project,pk=pk)
     if request.method == 'POST':
         form = ProjectPhotoForm(request.POST,request.FILES)
@@ -196,7 +260,7 @@ def AddProjectPhotoView(request,pk):
         'form':form,
         'project':project
     }
-    return render(request,'users/users-add-photo.html',context)
+    return render(request,'users/users-edit-project-add-photo.html',context)
 
 # Created function based views for 'project photo confirm delete' and 'project photo delete' instead
 # of class-based views as a result of multiple pieces of information needing to be passed into urls and

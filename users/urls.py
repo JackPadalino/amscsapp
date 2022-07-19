@@ -2,23 +2,31 @@ from django.contrib import admin
 from django.urls import path,include
 from django.contrib.auth import views as auth_views
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import (
+    EditProjectAddLinkView,
+    EditProjectAddPhotoView,
+    EditProjectAddVideoView,
+    EditProjectTextView,
     MyClassesListView,
-    ProjectCreateView,
+    #ProjectCreateView,
     MyProjectsListView,
     ProjectDetailView,
     ProjectDeleteView,
-    ProjectUpdateView,
-    AddProjectVideoView,
+    EditProjectTextView,
+    EditProjectAddVideoView,
     ProjectVideoConfirmDeleteView,
     ProjectVideoDeleteView,
-    AddProjectLinkView,
-    AddProjectPhotoView,
+    EditProjectAddLinkView,
+    EditProjectAddPhotoView,
     ProjectPhotoConfirmDeleteView,
-    ProjectPhotoDeleteView
+    ProjectPhotoDeleteView,
+    CreateProjectStepOneView,
+    CreateProjectStepTwoView,
+    CreateProjectStepThreeView,
+    CreateProjectStepFourView,
     )
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('register/',views.register,name='users-register'),
@@ -26,16 +34,20 @@ urlpatterns = [
     path('logout/',auth_views.LogoutView.as_view(template_name='users/users-logout.html'),name='users-logout'),
     path('my-profile/',views.profile,name='users-my-profile'),
     path('my-classes/',MyClassesListView.as_view(),name='users-my-classes'),
-    path('my-projects/',MyProjectsListView.as_view(),name='users-my-projects'),
-    path('create-project/',ProjectCreateView.as_view(),name='users-create-project'),
+    path('create-project-step-1/',CreateProjectStepOneView,name='users-create-project-step-1'),
+    path('create-project-step-2/<int:pk>/',CreateProjectStepTwoView,name='users-create-project-step-2'),
+    path('create-project-step-3/<int:pk>/',CreateProjectStepThreeView,name='users-create-project-step-3'),
+    path('create-project-step-4/<int:pk>/',CreateProjectStepFourView,name='users-create-project-step-4'),
     path('project-details/<int:pk>/',ProjectDetailView.as_view(),name='users-project-details'),
-    path('update-project/<int:pk>/',ProjectUpdateView.as_view(),name='users-update-project'),
+    path('my-projects/',MyProjectsListView.as_view(),name='users-my-projects'),
+    #path('create-project/',ProjectCreateView.as_view(),name='users-create-project'),
+    path('edit-project-text/<int:pk>/',EditProjectTextView.as_view(),name='users-update-project'),
+    path('add-project-video/<int:pk>/',EditProjectAddVideoView,name='users-add-video'),
+    path('add-project-link/<int:pk>/',EditProjectAddLinkView.as_view(),name='users-add-link'),
+    path('add-project-photo/<int:pk>/',EditProjectAddPhotoView,name='users-add-project-photo'),
     path('delete-project/<int:pk>/',ProjectDeleteView.as_view(),name='users-delete-project'),
-    path('add-video/<int:pk>/',AddProjectVideoView,name='users-add-video'),
-    path('add-link/<int:pk>/',AddProjectLinkView.as_view(),name='users-add-link'),
     path('confirm-delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoConfirmDeleteView,name='users-confirm-delete-video'),
-    path('delete-video/<int:project_pk>/<int:video_pk>/',ProjectVideoDeleteView,name='users-delete-video'),
-    path('add-project-photo/<int:pk>/',AddProjectPhotoView,name='users-add-project-photo'),
+    path('delete-project-video/<int:project_pk>/<int:video_pk>/',ProjectVideoDeleteView,name='users-delete-video'),
     path('confirm-delete-project-photo/<int:project_pk>/<int:project_photo_pk>/',ProjectPhotoConfirmDeleteView,name='users-confirm-delete-project-photo'),
     path('delete-project-photo/<int:project_pk>/<int:project_photo_pk>/',ProjectPhotoDeleteView,name='users-delete-project-photo'),
     #path('account/<int:pk>/delete/',UserDeleteView.as_view(),name='account-delete'),
