@@ -28,10 +28,10 @@ class Profile(models.Model):
 
 class Project(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='projects')
-    title = models.CharField(max_length=50,default='My project')
+    title = models.CharField(max_length=50)
     #period = models.IntegerField(choices=periods,default=1)
-    blurb = models.CharField(max_length=100,default='Check out my project!')
-    description = models.TextField(default="I haven't written my project description yet, but trust me it will be awesome!")
+    blurb = models.CharField(max_length=100)
+    description = models.TextField()
     project_link = models.URLField(max_length=1000,default=None,blank=True,null=True)
     #video = models.CharField(max_length=1000,blank=True)
     #image = models.ImageField(default=None,blank=True)
