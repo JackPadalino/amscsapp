@@ -12,7 +12,7 @@ def home(request):
 
 class SchoolYearListView(LoginRequiredMixin,ListView):
     model = SchoolYear
-    template_name = 'main/main-classbyschoolyear.html'
+    template_name = 'main/main-class-by-school-year.html'
     context_object_name = 'schoolyears'
 
 class ClassesListView(LoginRequiredMixin,ListView):
