@@ -49,35 +49,3 @@ class ProjectPhotoForm(forms.ModelForm):
     class Meta:
         model = ProjectPhoto
         fields = ['image']
-
-'''
-class UserProfileForm(forms.ModelForm):
-    periods = [
-        (1,1),
-        (2,2),
-        (3,3),
-        (4,4),
-        (6,6),
-        (7,7),
-    ]
-    period = forms.ChoiceField(choices=periods)
-    class Meta:
-        model = Profile
-        fields = []
-
-# this will create a form that will alow a user update their profile picture
-class ProfileUpdateForm(forms.ModelForm):
-    periods = [
-        (1,1),
-        (2,2),
-        (3,3),
-        (4,4),
-        (6,6),
-        (7,7),
-    ]
-    period = forms.ChoiceField(choices=periods)
-    class Meta:
-        model = Profile
-        #fields = ['image']
-        fields = []
-'''
