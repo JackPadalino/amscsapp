@@ -16,31 +16,39 @@
             <br>
             <legend class='border-bottom mb-4'>Project media</legend>
             {% for project_video in project.project_videos.all %}
-                <div class='video-div'>
-                    {% video project_video.video '300x300' %}
-                </div>
-            {% endfor %}
+            <div class='video-div'>
+                {% video project_video.video '300x300' %}
+            </div>
+            <br>
+        {% endfor %}
+        {% for project_photo in project.project_photos.all %}
+            <div class='project-photo-div'>
+                <image style='height:300px;width:300px;' src="{{ project_photo.image.url }}"></image>
+            </div>
+            <br>
+        {% endfor %}
         </fieldset>
         <br>
     </div>
 </div>
 <a href="{% url 'classroom-student-details' profile.pk %}">Back to student profile</a>
 
+<!--Comments section-->
 {% if not comments %}
     <br><br>
     <h3 class="border-bottom mb-4">No comments yet...</h3>
-<!--<a href=url 'add-comment' project.pk >Add Comment</a>-->
 {% else %}
     <br><br>
     <h3 class="border-bottom mb-4">Comments</h3>
     {% for comment in comments %}
         <b>{{ comment.author.first_name }} {{ comment.author.last_name }}</b>
-        <p>{{ comment.content }}</p> 
-        <small><a href="{% url 'classroom-update-comment' comment.pk %}">Edit</a></small>
-        <small><a href="{% url 'classroom-delete-comment' comment.pk %}">Delete</a></small>
+        <p>{{ comment.content }}</p>
+        {% if project.user != user %}
+            <small><a href="{% url 'classroom-update-comment' comment.pk %}">Edit</a></small>
+            <small><a href="{% url 'classroom-delete-comment' comment.pk %}">Delete</a></small>
+        {% endif %}
         <br>
     {% endfor %}
-<!--<a href= url 'add-comment' project.pk >Add Comment</a>-->
 {% endif %}
 <br>
 {% if project.user != user %}

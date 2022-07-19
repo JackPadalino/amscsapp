@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView, CreateView,UpdateView,Del
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectForm,ProjectVideoForm,ProjectLinkForm,ProjectPhotoForm
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from .models import Profile,Project,ProjectVideo,ProjectPhoto
+from .models import Profile,Project,ProjectVideo,ProjectPhoto,ProjectComment
 import re
 import os
 
@@ -156,10 +156,15 @@ def CreateProjectStepFourView(request,pk):
     }
     return render(request,'users/users-create-project-step-4-add-photo.html',context)
 
-# view to see the details of a project
-class ProjectDetailView(LoginRequiredMixin,DetailView):
-    model = Project
-    template_name = 'users/users-project-details.html'
+@login_required
+def ProjectDetailView(request,pk):
+    project = Project.objects.get(pk=pk)
+    comments = project.comments.all()
+    context = {
+        'project':project,
+        'comments':comments
+    }
+    return render(request,'users/users-project-details.html',context)
 
 # view to see all classes for a user
 class MyProjectsListView(LoginRequiredMixin,ListView):

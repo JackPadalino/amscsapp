@@ -30,8 +30,8 @@
                         <a href="{% url 'users-confirm-delete-video' project.pk project_video.pk %}">Delete video</a>
                     {% endif %}
                 </div>
+                <br>
             {% endfor %}
-            <br>
             {% for project_photo in project.project_photos.all %}
                 <div class='project-photo-div'>
                     <image style='height:300px;width:300px;' src="{{ project_photo.image.url }}"></image>
@@ -40,6 +40,7 @@
                         <a href="{% url 'users-confirm-delete-project-photo' project.pk project_photo.pk %}">Delete photo</a>
                     {% endif %}
                 </div>
+                <br>
             {% endfor %}
         </fieldset>
         <br>
@@ -47,5 +48,19 @@
 </div>
 {% if user == project.user %}
     <a href="{% url 'users-my-projects' %}">Back to My projects</a>
+{% endif %}
+
+<!--Comments section-->
+{% if not comments %}
+    <br><br>
+    <h3 class="border-bottom mb-4">No comments yet...</h3>
+{% else %}
+    <br><br>
+    <h3 class="border-bottom mb-4">Comments</h3>
+    {% for comment in comments %}
+        <b>{{ comment.author.first_name }} {{ comment.author.last_name }}</b>
+        <p>{{ comment.content }}</p> 
+        <br>
+    {% endfor %}
 {% endif %}
 {% endblock content %}
