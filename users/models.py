@@ -33,8 +33,6 @@ class Project(models.Model):
     blurb = models.CharField(max_length=100)
     description = models.TextField()
     project_link = models.URLField(max_length=1000,default=None,blank=True,null=True)
-    #video = models.CharField(max_length=1000,blank=True)
-    #image = models.ImageField(default=None,blank=True)
 
     def get_absolute_url(self):
         return reverse('users-project-details',kwargs={'pk':self.pk})
