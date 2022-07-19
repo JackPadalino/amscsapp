@@ -87,7 +87,7 @@ class MyProjectsListView(LoginRequiredMixin,ListView):
 
 class ProjectCreateView(LoginRequiredMixin,CreateView):
     model = Project
-    template_name = 'users/users-project_form.html'
+    template_name = 'users/users-create-project.html'
     fields = ['title','blurb','description']
     
     def form_valid(self,form):
