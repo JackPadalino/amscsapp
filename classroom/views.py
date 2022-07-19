@@ -12,11 +12,13 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from .forms import JoinClassForm
 
+# view to see the details of a classroom
 class ClassDetailView(LoginRequiredMixin,DetailView):
     template_name = 'classroom/classroom-main.html'
     model = Classroom
     context_object_name = 'classroom'
 
+# view to see the list of student profiles in a classroom
 class StudentProfileListView(LoginRequiredMixin,ListView):
     template_name = 'classroom/classroom-profiles.html'
     model = Classroom
@@ -29,6 +31,7 @@ class StudentProfileListView(LoginRequiredMixin,ListView):
         self.classroom = get_object_or_404(Classroom, pk=self.kwargs['pk'])
         return self.classroom.profiles.all()
 
+# view to see the details of a student's profile
 @login_required
 def StudentDetailsView(request,pk):
     profile = Profile.objects.get(pk=pk)
@@ -41,10 +44,7 @@ def StudentDetailsView(request,pk):
     }
     return render(request,'classroom/classroom-student-details.html',context)
 
-#class ProjectDetailView(LoginRequiredMixin,DetailView):
-#    model = Project
-#    template_name = 'classroom/classroom-projectdetails.html'
-
+# view to see the details of a project
 @login_required
 def ProjectDetailView(request,profile_pk,project_pk):
     user=request.user
@@ -69,6 +69,7 @@ def ProjectDetailView(request,profile_pk,project_pk):
     }
     return render(request,'classroom/classroom-project-details.html',context)
 
+# view to update a project comment
 class ProjectCommentUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = ProjectComment
     fields = ['content']
@@ -84,6 +85,7 @@ class ProjectCommentUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView
             return True
         return False
 
+# view to delete a project comment
 class ProjectCommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = ProjectComment
     template_name = 'classroom/classroom-project-comment-confirm-delete.html'
@@ -97,6 +99,7 @@ class ProjectCommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView
             return True
         return False
 
+# view to join a class
 def JoinClassView(request,classroom_pk):
     user = request.user
     profile = Profile.objects.get(user=user)

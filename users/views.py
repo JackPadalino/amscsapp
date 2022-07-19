@@ -15,7 +15,7 @@ import os
 EMAIL_DOMAIN = os.environ.get('EMAIL_DOMAIN')
 REGISTERED_EMAILS = os.environ.get('REGISTERED_EMAILS')
 
-# register view
+# view to register a new user
 def register(request):
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
@@ -37,11 +37,11 @@ def register(request):
     }
     return render(request,'users/users-register.html',context)
 
-# login view
+# view to log in
 def login(request):
     return render(request,'users/users-login.html')
 
-# profile details/update view
+# view to see/update details of a user's profile
 @login_required
 def profile(request):
     if request.method == "POST":
@@ -70,6 +70,7 @@ def profile(request):
     }
     return render(request,'users/users-my-profile.html',context)
 
+# view to list all projects of a user
 class MyClassesListView(LoginRequiredMixin,ListView):
     template_name = 'users/users-my-classes.html'
     context_object_name = 'classes'
@@ -78,6 +79,7 @@ class MyClassesListView(LoginRequiredMixin,ListView):
         profile = Profile.objects.get(user=self.request.user)
         return profile.classes.all()
 
+# view for step 1 of creating a new project
 @login_required
 def CreateProjectStepOneView(request):
     if request.method == 'POST':
@@ -96,6 +98,7 @@ def CreateProjectStepOneView(request):
     }
     return render(request,'users/users-create-project-step-1-add-text.html',context)
 
+# view for step 2 of creating a new project
 @login_required
 def CreateProjectStepTwoView(request,pk):
     project = get_object_or_404(Project,pk=pk)
@@ -115,6 +118,7 @@ def CreateProjectStepTwoView(request,pk):
     }
     return render(request,'users/users-create-project-step-2-add-link.html',context)
 
+# view for step 3 of creating a new project
 @login_required
 def CreateProjectStepThreeView(request,pk):
     project = get_object_or_404(Project,pk=pk)
@@ -133,6 +137,7 @@ def CreateProjectStepThreeView(request,pk):
     }
     return render(request,'users/users-create-project-step-3-add-video.html',context)
 
+# view for step 4 of creating a new project
 @login_required
 def CreateProjectStepFourView(request,pk):
     project = get_object_or_404(Project,pk=pk)
@@ -151,15 +156,12 @@ def CreateProjectStepFourView(request,pk):
     }
     return render(request,'users/users-create-project-step-4-add-photo.html',context)
 
+# view to see the details of a project
 class ProjectDetailView(LoginRequiredMixin,DetailView):
     model = Project
     template_name = 'users/users-project-details.html'
-    #context_object_name = 'videos'
-    
-    #def get_queryset(self):
-    #    self.project = get_object_or_404(Project,pk=self.kwargs['pk'])
-    #    return self.project.project_videos.all()
 
+# view to see all classes for a user
 class MyProjectsListView(LoginRequiredMixin,ListView):
     template_name = 'users/users-my-projects.html'
     context_object_name = 'projects'
@@ -167,6 +169,7 @@ class MyProjectsListView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         return Project.objects.filter(user=self.request.user)
 
+# view to edit the text of a project
 class EditProjectTextView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
     fields = ['title','blurb','description']
@@ -182,6 +185,7 @@ class EditProjectTextView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
             return True
         return False
 
+# view to delete a project
 class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Project
     template_name = 'users/users-project-confirm-delete.html'
@@ -193,6 +197,7 @@ class ProjectDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
             return True
         return False
 
+# view to edit a project's link
 class EditProjectAddLinkView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     model = Project
     fields = ['project_link']
@@ -208,6 +213,7 @@ class EditProjectAddLinkView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
             return True
         return False
 
+# view to add a new project video
 @login_required
 def EditProjectAddVideoView(request,pk):
     project = get_object_or_404(Project,pk=pk)
@@ -238,12 +244,14 @@ def ProjectVideoConfirmDeleteView(request,project_pk,video_pk):
     }
     return render(request,'users/users-project-video-confirm-delete.html',context)
 
+# view to delete a project video
 @login_required
 def ProjectVideoDeleteView(request,project_pk,video_pk):
     video  = ProjectVideo.objects.get(pk=video_pk)
     video.delete()
     return redirect('users-project-details',pk=project_pk)
 
+# view to add a new project photo
 @login_required
 def EditProjectAddPhotoView(request,pk):
     project = get_object_or_404(Project,pk=pk)
@@ -274,6 +282,7 @@ def ProjectPhotoConfirmDeleteView(request,project_pk,project_photo_pk):
     }
     return render(request,'users/users-project-photo-confirm-delete.html',context)
 
+# view to delete a project photo
 @login_required
 def ProjectPhotoDeleteView(request,project_pk,project_photo_pk):
     photo  = ProjectPhoto.objects.get(pk=project_photo_pk)
