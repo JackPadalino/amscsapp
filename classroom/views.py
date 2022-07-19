@@ -106,11 +106,14 @@ def JoinClassView(request,classroom_pk):
         if form.is_valid():
             join_code = form.cleaned_data['join_code']
             if join_code == classroom.join_code:
-                classroom.profiles.add(profile)
-                messages.add_message(request,messages.SUCCESS,'You have been added to this class. Welcome to the team!')
+                if profile not in classroom.profiles.all():
+                    classroom.profiles.add(profile)
+                    messages.add_message(request,messages.SUCCESS,'You have been added to this class. Welcome to the team!')
+                else:
+                    messages.add_message(request,messages.SUCCESS,'Looks like you are already in this class!')
+                return redirect('classroom-classroom-main',class_title=classroom.title,pk=classroom.pk)
             else:
-                messages.add_message(request,messages.ERROR,'Oops! Something went wrong. Maybe you entered the wrong join code?')
-            return redirect('classroom-classroom-main',class_title=classroom.title,pk=classroom.pk)
+                messages.add_message(request,messages.ERROR,'Oops! Something went wrong. Maybe you entered the wrong join code?')       
     else:
         form = JoinClassForm()
     context = {

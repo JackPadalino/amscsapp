@@ -2,8 +2,10 @@
 {% block content %}
 <div class='page-title'>
     <h1>{{ classroom.school_year }} {{ classroom.title }}</h1>
-    <a href ="{% url 'classroom-join-class' classroom.pk %}">Join class</a>
-    <p>join code: {{ classroom.join_code }}</p>
+    {% if user.profile not in classroom.profiles.all %}
+        <a href ="{% url 'classroom-join-class' classroom.pk %}">Join class</a>
+        <p>join code: {{ classroom.join_code }}</p>
+    {% endif %}
 </div>
 <h1><a href="{% url 'classroom-classroom-profiles' classroom.title classroom.pk %}">Meet the team</a></h1>
 <h1><a href="#">Class projects</a></h1>
