@@ -26,6 +26,37 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
 
+class TempProject(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='temp_projects')
+    title = models.CharField(max_length=50)
+    #period = models.IntegerField(choices=periods,default=1)
+    blurb = models.CharField(max_length=100)
+    description = models.TextField()
+    project_link = models.URLField(max_length=1000,default=None,blank=True,null=True)
+
+    def get_absolute_url(self):
+        return reverse('users-project-details',kwargs={'pk':self.pk})
+
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name} - {self.title}'  
+
+class TempProjectVideo(models.Model):
+    temp_project = models.ForeignKey(TempProject,on_delete=models.CASCADE,related_name='temp_project_videos')
+    video = models.CharField(max_length=1000,default=None)
+    
+    def get_absolute_url(self):
+        return reverse('users-project-details',kwargs={'pk':self.project.pk})
+
+    def __str__(self):
+        return f'{self.temp_project}'
+
+class TempProjectPhoto(models.Model):
+    temp_project = models.ForeignKey(TempProject,on_delete=models.CASCADE,related_name='project_photos')
+    image = models.ImageField(default=None,upload_to='project_pics')
+
+    def __str__(self):
+        return f'{self.project}'
+
 class Project(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='projects')
     title = models.CharField(max_length=50)

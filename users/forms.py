@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile,Project,ProjectVideo,ProjectComment,ProjectPhoto
+from .models import Profile,TempProject,TempProjectVideo,TempProjectPhoto,Project,ProjectVideo,ProjectComment,ProjectPhoto
 
 # here we are inheriting the user creating form that comes with Django, but we are adding the email field so 
 # we can validate a user using their email
@@ -25,27 +25,49 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ['grade','image']
 
+#~~~~~TempProject model forms~~~~~#
+class TempProjectForm(forms.ModelForm):
+    class Meta:
+        model = TempProject
+        fields = ['title','blurb','description']
+
+class TempProjectLinkForm(forms.ModelForm):
+    class Meta:
+        model = TempProject
+        fields = ['project_link']
+
+class TempProjectVideoForm(forms.ModelForm):
+    class Meta:
+        model = TempProjectVideo
+        fields = ['video']
+
+class TempProjectPhotoForm(forms.ModelForm):
+    class Meta:
+        model = TempProjectPhoto
+        fields = ['image']
+
+#~~~~~Project model forms
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['title','blurb','description']
-
-class ProjectVideoForm(forms.ModelForm):
-    class Meta:
-        model = ProjectVideo
-        fields = ['video']
 
 class ProjectLinkForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['project_link']
 
-class CommentForm(forms.ModelForm):
+class ProjectVideoForm(forms.ModelForm):
     class Meta:
-        model = ProjectComment
-        fields = ['content']
+        model = ProjectVideo
+        fields = ['video']
 
 class ProjectPhotoForm(forms.ModelForm):
     class Meta:
         model = ProjectPhoto
         fields = ['image']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = ProjectComment
+        fields = ['content']
