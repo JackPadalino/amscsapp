@@ -51,7 +51,7 @@ class TempProjectVideo(models.Model):
         return f'{self.temp_project}'
 
 class TempProjectPhoto(models.Model):
-    temp_project = models.ForeignKey(TempProject,on_delete=models.CASCADE,related_name='project_photos')
+    temp_project = models.ForeignKey(TempProject,on_delete=models.CASCADE,related_name='temp_project_photos')
     image = models.ImageField(default=None,upload_to='project_pics')
 
     def __str__(self):

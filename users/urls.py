@@ -26,6 +26,7 @@ from .views import (
     CreateProjectStepTwoView,
     CreateProjectStepThreeView,
     CreateProjectStepFourView,
+    CreateProjectStepFiveView,
     )
 
 urlpatterns = [
@@ -34,10 +35,15 @@ urlpatterns = [
     path('logout/',auth_views.LogoutView.as_view(template_name='users/users-logout.html'),name='users-logout'),
     path('my-profile/',views.profile,name='users-my-profile'),
     path('my-classes/',MyClassesListView.as_view(),name='users-my-classes'),
+    #path('create-project-step-1/',CreateProjectStepOneView,name='users-create-project-step-1'),
+    #path('create-project-step-2/<int:pk>/',CreateProjectStepTwoView,name='users-create-project-step-2'),
+    #path('create-project-step-3/<int:pk>/',CreateProjectStepThreeView,name='users-create-project-step-3'),
+    #path('create-project-step-4/<int:pk>/',CreateProjectStepFourView,name='users-create-project-step-4'),
     path('create-project-step-1/',CreateProjectStepOneView,name='users-create-project-step-1'),
-    path('create-project-step-2/<int:pk>/',CreateProjectStepTwoView,name='users-create-project-step-2'),
-    path('create-project-step-3/<int:pk>/',CreateProjectStepThreeView,name='users-create-project-step-3'),
-    path('create-project-step-4/<int:pk>/',CreateProjectStepFourView,name='users-create-project-step-4'),
+    path('create-project-step-2/<int:temp_project_pk>/',CreateProjectStepTwoView,name='users-create-project-step-2'),
+    path('create-project-step-3/<int:temp_project_pk>/',CreateProjectStepThreeView,name='users-create-project-step-3'),
+    path('create-project-step-4/<int:temp_project_pk>/',CreateProjectStepFourView,name='users-create-project-step-4'),
+    path('create-project-step-5/<int:temp_project_pk>/',CreateProjectStepFiveView,name='users-create-project-step-5'),
     path('project-details/<int:pk>/',ProjectDetailView,name='users-project-details'),
     path('my-projects/',MyProjectsListView.as_view(),name='users-my-projects'),
     path('edit-project-text/<int:pk>/',EditProjectTextView.as_view(),name='users-update-project'),

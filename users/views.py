@@ -5,10 +5,31 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView,UpdateView,DeleteView
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,ProjectForm,ProjectVideoForm,ProjectLinkForm,ProjectPhotoForm
+from .forms import (
+    UserRegisterForm,
+    UserUpdateForm,
+    ProfileUpdateForm,
+    TempProjectForm,
+    TempProjectLinkForm,
+    TempProjectVideoForm,
+    TempProjectPhotoForm,
+    ProjectForm,
+    ProjectLinkForm,
+    ProjectVideoForm,
+    ProjectPhotoForm
+    )
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from .models import Profile,Project,ProjectVideo,ProjectPhoto,ProjectComment
+from .models import (
+    Profile,
+    TempProject,
+    TempProjectVideo,
+    TempProjectPhoto,
+    Project,
+    ProjectVideo,
+    ProjectPhoto,
+    ProjectComment
+    )
 import re
 import os
 
@@ -79,6 +100,110 @@ class MyClassesListView(LoginRequiredMixin,ListView):
         profile = Profile.objects.get(user=self.request.user)
         return profile.classes.all()
 
+# view for step 1 of creating a new project
+@login_required
+def CreateProjectStepOneView(request):
+    TempProject.objects.filter(user=request.user).delete()
+    if request.method == 'POST':
+        form = TempProjectForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            title = form.cleaned_data['title']
+            blurb = form.cleaned_data['blurb']
+            description = form.cleaned_data['description']
+            temp_project = TempProject.objects.create(user=user,title=title,blurb=blurb,description=description)
+            return redirect('users-create-project-step-2',temp_project_pk=temp_project.pk)
+    else:
+        form = TempProjectForm()
+    context = {
+        'form':form
+    }
+    return render(request,'users/users-create-project-step-1-add-text.html',context)
+
+# view for step 2 of creating a new project
+@login_required
+def CreateProjectStepTwoView(request,temp_project_pk):
+    user = request.user
+    temp_project = get_object_or_404(TempProject,pk=temp_project_pk)
+    if request.method == 'POST':
+        form = TempProjectLinkForm(request.POST)
+        if form.is_valid():
+            link = form.cleaned_data['project_link']
+            temp_project.project_link = link
+            temp_project.save()
+            return redirect('users-create-project-step-3',temp_project_pk=temp_project.pk)
+    else:
+        form = ProjectLinkForm()
+    context = {
+        'form':form,
+        'temp_project':temp_project
+    }
+    return render(request,'users/users-create-project-step-2-add-link.html',context)
+
+# view for step 3 of creating a new project
+@login_required
+def CreateProjectStepThreeView(request,temp_project_pk):
+    temp_project = get_object_or_404(TempProject,pk=temp_project_pk)
+    if request.method == 'POST':
+        form = TempProjectVideoForm(request.POST)
+        if form.is_valid():
+            temp_video = form.save(commit=False)
+            temp_video.temp_project = temp_project
+            temp_video.save()
+            return redirect('users-create-project-step-4',temp_project_pk=temp_project.pk)
+    else:
+        form = TempProjectVideoForm()
+    context = {
+        'form':form,
+        'temp_project':temp_project,
+    }
+    return render(request,'users/users-create-project-step-3-add-video.html',context)
+
+# view for step 4 of creating a new project
+@login_required
+def CreateProjectStepFourView(request,temp_project_pk):
+    user = request.user
+    temp_project = get_object_or_404(TempProject,pk=temp_project_pk)
+    if request.method == 'POST':
+        form = TempProjectPhotoForm(request.POST,request.FILES)
+        if form.is_valid():
+            # create a TempProjectPhoto object with the information from the form
+            temp_photo = form.save(commit=False)
+            temp_photo.temp_project = temp_project
+            temp_photo.save()
+            return redirect('users-create-project-step-5',temp_project_pk=temp_project.pk)
+    else:
+        form = TempProjectPhotoForm()
+    context = {
+        'form':form,
+        'temp_project':temp_project,
+    }
+    return render(request,'users/users-create-project-step-4-add-photo.html',context)
+
+# view for step 5 of creating a new project - this view creates the final Project object
+# using the temporary object that was created in steps 1-4
+@login_required
+def CreateProjectStepFiveView(request,temp_project_pk):
+    user = request.user
+    temp_project = get_object_or_404(TempProject,pk=temp_project_pk)
+    project = Project.objects.create(
+        user=user,
+        title=temp_project.title,
+        blurb=temp_project.blurb,
+        description=temp_project.description,
+        project_link=temp_project.project_link,
+        )
+    # add the information from the temporary video and photo objects to the newly created project object
+    if len(temp_project.temp_project_videos.all()) > 0:
+        for temp_video in temp_project.temp_project_videos.all():
+            ProjectVideo.objects.create(project=project,video=temp_video.video)
+    if len(temp_project.temp_project_photos.all()) > 0:
+        for temp_photo in temp_project.temp_project_photos.all():
+            ProjectPhoto.objects.create(project=project,image=temp_photo.image)
+    # delete all TempProject objects after creating a new Project object
+    return redirect('users-project-details',pk=project.pk)
+
+'''
 # view for step 1 of creating a new project
 @login_required
 def CreateProjectStepOneView(request):
@@ -155,6 +280,7 @@ def CreateProjectStepFourView(request,pk):
         'project':project
     }
     return render(request,'users/users-create-project-step-4-add-photo.html',context)
+'''
 
 @login_required
 def ProjectDetailView(request,pk):
