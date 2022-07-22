@@ -13,9 +13,9 @@ from .models import (
     )
 
 admin.site.register(Profile)
-admin.site.register(TempProject)
-admin.site.register(TempProjectPhoto)
-admin.site.register(TempProjectVideo)
+#admin.site.register(TempProject)
+#admin.site.register(TempProjectPhoto)
+#admin.site.register(TempProjectVideo)
 admin.site.register(Project)
 admin.site.register(ProjectPhoto)
 admin.site.register(ProjectVideo)
