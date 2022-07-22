@@ -186,6 +186,7 @@ def CreateProjectStepFourView(request,temp_project_pk):
 def CreateProjectStepFiveView(request,temp_project_pk):
     user = request.user
     temp_project = get_object_or_404(TempProject,pk=temp_project_pk)
+    # create a project object using the temp object information
     project = Project.objects.create(
         user=user,
         title=temp_project.title,
