@@ -5,6 +5,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView,UpdateView,DeleteView
+import re
+import os
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from .forms import (
     UserRegisterForm,
     UserUpdateForm,
@@ -18,8 +22,6 @@ from .forms import (
     ProjectVideoForm,
     ProjectPhotoForm
     )
-from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from django.contrib.auth.decorators import login_required
 from .models import (
     Profile,
     TempProject,
@@ -30,8 +32,6 @@ from .models import (
     ProjectPhoto,
     ProjectComment
     )
-import re
-import os
 
 EMAIL_DOMAIN = os.environ.get('EMAIL_DOMAIN')
 REGISTERED_EMAILS = os.environ.get('REGISTERED_EMAILS')
@@ -100,7 +100,7 @@ class MyClassesListView(LoginRequiredMixin,ListView):
         profile = Profile.objects.get(user=self.request.user)
         return profile.classes.all()
 
-# view for step 1 of creating a new project
+# view for step 1 of creating a new project - creating a temporary project object
 @login_required
 def CreateProjectStepOneView(request):
     TempProject.objects.filter(user=request.user).delete()
@@ -120,7 +120,7 @@ def CreateProjectStepOneView(request):
     }
     return render(request,'users/users-create-project-step-1-add-text.html',context)
 
-# view for step 2 of creating a new project
+# view for step 2 of creating a new project - adding a project link
 @login_required
 def CreateProjectStepTwoView(request,temp_project_pk):
     user = request.user
@@ -133,14 +133,14 @@ def CreateProjectStepTwoView(request,temp_project_pk):
             temp_project.save()
             return redirect('users-create-project-step-3',temp_project_pk=temp_project.pk)
     else:
-        form = ProjectLinkForm()
+        form = TempProjectLinkForm()
     context = {
         'form':form,
         'temp_project':temp_project
     }
     return render(request,'users/users-create-project-step-2-add-link.html',context)
 
-# view for step 3 of creating a new project
+# view for step 3 of creating a new project - adding a new project video
 @login_required
 def CreateProjectStepThreeView(request,temp_project_pk):
     temp_project = get_object_or_404(TempProject,pk=temp_project_pk)
@@ -159,7 +159,7 @@ def CreateProjectStepThreeView(request,temp_project_pk):
     }
     return render(request,'users/users-create-project-step-3-add-video.html',context)
 
-# view for step 4 of creating a new project
+# view for step 4 of creating a new project - adding a new project photo
 @login_required
 def CreateProjectStepFourView(request,temp_project_pk):
     user = request.user
@@ -180,8 +180,7 @@ def CreateProjectStepFourView(request,temp_project_pk):
     }
     return render(request,'users/users-create-project-step-4-add-photo.html',context)
 
-# view for step 5 of creating a new project - this view creates the final Project object
-# using the temporary object that was created in steps 1-4
+# view for step 5 of creating a new project - creating a final project object from a temporary project object 
 @login_required
 def CreateProjectStepFiveView(request,temp_project_pk):
     user = request.user
