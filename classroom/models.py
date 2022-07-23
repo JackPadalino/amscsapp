@@ -27,3 +27,15 @@ class Classroom(models.Model):
 
     def __str__(self):
         return f'{self.title} - {self.school_year}'
+
+class TempProjectTopic(models.Model):
+    title = models.CharField(max_length=100,default=None)
+
+    def __str__(self):
+        return f'{self.title}'
+
+class ProjectTopic(models.Model):
+    title = models.CharField(max_length=100,default=None)
+
+    def __str__(self):
+        return f'{self.title}'
