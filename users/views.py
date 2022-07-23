@@ -103,7 +103,6 @@ class MyClassesListView(LoginRequiredMixin,ListView):
 # view for step 1 of creating a new project - creating a temporary project object
 @login_required
 def CreateProjectStepOneView(request):
-    TempProject.objects.filter(user=request.user).delete()
     if request.method == 'POST':
         form = TempProjectForm(request.POST)
         if form.is_valid():
@@ -200,7 +199,8 @@ def CreateProjectStepFiveView(request,temp_project_pk):
     if len(temp_project.temp_project_photos.all()) > 0:
         for temp_photo in temp_project.temp_project_photos.all():
             ProjectPhoto.objects.create(project=project,image=temp_photo.image)
-    # delete all TempProject objects after creating a new Project object
+    # delete all TempProject objects after creating a new Project object and return the new Project object
+    TempProject.objects.filter(user=request.user).delete()
     return redirect('users-project-details',pk=project.pk)
 
 '''
